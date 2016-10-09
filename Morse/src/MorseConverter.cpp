@@ -6,7 +6,9 @@
  */
 #include "MorseConverter.h"
 
-MorseConverter::MorseConverter()
+MorseConverter::MorseConverter(IDevice& device, MorseDuration duration) :
+	_device(device),
+	_duration(duration)
 {
 	_morseMap['A'] = "dD"; 		_morseMap['a'] = "dD";
 	_morseMap['B'] = "Dddd"; 	_morseMap['b'] = "Dddd";
@@ -50,6 +52,52 @@ MorseConverter::~MorseConverter() {
 	// TODO Auto-generated destructor stub
 }
 
+int MorseConverter::Play(std::string phrase)
+{
+	std::string morseString = ConvertPhrase(phrase);
+	if (morseString.empty())
+		return 1;
+
+	for (char& c : morseString)
+	{
+		//std::cout << c << std::endl;
+		switch (c)
+		{
+		case 'd':
+			PlayDot();
+			_duration.Sleep(_duration.IntraletterDuration());
+			break;
+		case 'D':
+			PlayDash();
+			_duration.Sleep(_duration.IntraletterDuration());
+			break;
+		case '-':
+			_duration.Sleep(_duration.InterletterDuration());
+			break;
+		case '_':
+			_duration.Sleep(_duration.InterwordDuration());
+			break;
+		default:
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void MorseConverter::PlayDot(void)
+{
+	_device.Start();
+	_duration.Sleep(_duration.DotDuration());
+	_device.Stop();
+}
+
+void MorseConverter::PlayDash(void)
+{
+	_device.Start();
+	_duration.Sleep(_duration.DashDuration());
+	_device.Stop();
+}
+
 std::string MorseConverter::ConvertLetter(char letter)
 {
 	//return IfElseLetterConverter(letter);
@@ -63,7 +111,11 @@ std::string MorseConverter::ConvertWord(std::string word)
 
 	for (std::string::iterator it = word.begin(); it != word.end(); ++it)
 	{
-		morseWord += ConvertLetter(*it);
+		std::string converted = ConvertLetter(*it);
+		if (converted.empty())
+			return "";
+
+		morseWord += converted;
 		morseWord += '-';
 	}
 
@@ -75,12 +127,16 @@ std::string MorseConverter::ConvertWord(std::string word)
 
 std::string MorseConverter::ConvertPhrase(std::string phrase)
 {
-	std::string morsePhrase = "";
 	std::stringstream reader(phrase);
 	std::string word;
+	std::string morsePhrase = "";
 
 	while (reader >> word) {
-		morsePhrase += ConvertWord(word);
+		std::string converted = ConvertWord(word);
+		if (converted.empty())
+			return "";
+
+		morsePhrase += converted;
 		morsePhrase += '_';
 	}
 
@@ -93,7 +149,9 @@ std::string MorseConverter::ConvertPhrase(std::string phrase)
 std::string MorseConverter::MapLetterConverter(char letter)
 {
 	if (_morseMap.find(letter) != _morseMap.end())
+	{
 		return _morseMap[letter];
+	}
 	else
 		return "";
 }

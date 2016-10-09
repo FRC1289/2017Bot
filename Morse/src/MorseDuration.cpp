@@ -5,10 +5,20 @@
  *      Author: popeye
  */
 
+#include <iostream>
+
 #include "MorseDuration.h"
 
+#if defined(__MINGW64__) || defined(__MINGW32__)
+#include <windows.h>
+#elif defined(__GNUC__)
+#include <unistd.h>
+#else
+ASSERT(0);
+#endif
+
 MorseDuration::MorseDuration() :
-	_duration(250)
+	_duration(250) // 250ms
 {
 	// TODO Auto-generated constructor stub
 
@@ -42,4 +52,18 @@ int MorseDuration::InterletterDuration(void)
 int MorseDuration::InterwordDuration(void)
 {
 	return 7 * _duration;
+}
+
+int MorseDuration::Sleep(int msec)
+{
+#if defined(__MINGW64__) || defined(__MINGW32__)
+	return 0;
+	// See 	http://stackoverflow.com/questions/33605828/mingw32-all-compiled-executables-hang
+	// Appears that antivirus causes the Sleep call to hang, and I can't turn AV off on the Gearheadz laptops.
+	//return Sleep(msec);
+#elif defined(__GNUC__)
+	return usleep(msec * 1000);
+#else
+	ASSERT(0);
+#endif
 }

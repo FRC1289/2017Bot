@@ -18,10 +18,11 @@ public:
 	int IntraletterDuration(void);
 	int InterletterDuration(void);
 	int InterwordDuration(void);
+	int Sleep(int msec);
 
 private:
-	int _duration;
 
+	int _duration;
 };
 
 #endif /* MORSEDURATION_H_ */
