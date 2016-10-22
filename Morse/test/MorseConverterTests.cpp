@@ -5,10 +5,18 @@
  *      Author: popeye
  */
 
-#include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include "MorseConverter.h"
-#include "LEDDevice.h"
+#include "IDevice.h"
 #include "MorseDuration.h"
+
+using namespace ::testing;
+
+class MockDevice : public IDevice
+{
+	MOCK_METHOD0(Start, int(void));
+	MOCK_METHOD0(Stop, int(void));
+};
 
 namespace {
   class MorseConverterTests : public ::testing::Test {
@@ -16,7 +24,7 @@ namespace {
 	  MorseConverterTests() : _converter(_device, _duration) {}
   protected:
  	  MorseDuration _duration;
- 	  LEDDevice _device;
+ 	  NiceMock<MockDevice> _device;
  	  MorseConverter _converter;
   };
 

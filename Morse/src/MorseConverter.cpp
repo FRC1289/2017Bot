@@ -5,6 +5,8 @@
  *      Author: popeye
  */
 #include "MorseConverter.h"
+#include <sstream>
+#include <string>
 
 MorseConverter::MorseConverter(IDevice& device, MorseDuration duration) :
 	_device(device),
