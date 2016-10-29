@@ -55,5 +55,19 @@ public class Arm extends Subsystem {
     {
     	return _verticalState;
     }
+    
+    public void MoveHorizontal(ArmState on_off)
+    {
+       	_horizontalState = on_off;
+    	if (on_off == ArmState.ON)
+    		_pneumaticHorizontal.set(true);
+    	else
+    		_pneumaticHorizontal.set(false);
+    	
+    }
+    public ArmState GetHorizontalState()
+    {
+    	return _horizontalState;
+    }
 }
 

@@ -23,7 +23,7 @@ public class ArmTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		// Needed to creat what appears to be a singleton used when instantiating a subsystem entity
+		// Needed to create what appears to be a singleton used when instantiating a subsystem entity
 		HLUsageReporting _reporting = new HLUsageReporting();
 		Null _nullReporting = new Null();
 		_reporting.SetImplementation(_nullReporting);
@@ -59,9 +59,44 @@ public class ArmTest {
 	}
 	
 	@Test
+	public void SetArmVerticalStateToOffSetsVerticalSolenoidToFalse() {
+		_arm.MoveVertical(Arm.ArmState.OFF);
+		verify(_mockPneumaticVertical).set(false);
+	}
+	
+	@Test
+	public void SetArmVerticalStateToOnSetsVerticalSolenoidToTrue() {
+		_arm.MoveVertical(Arm.ArmState.ON);
+		verify(_mockPneumaticVertical).set(true);
+	}
+	
+	@Test
 	public void SetArmVerticalStateToOnSetsOnState() {
 		_arm.MoveVertical(Arm.ArmState.ON);
 		assertEquals(_arm.GetVerticalState(), Arm.ArmState.ON);
 	}
+	
+	@Test
+	public void SetArmHotizontalStateToOffSetsOffState() {
+		_arm.MoveHorizontal(Arm.ArmState.OFF);
+		assertEquals(_arm.GetHorizontalState(), Arm.ArmState.OFF);
+	}
+	
+	@Test
+	public void SetArmHorizontalStateToOnSetsOnState() {
+		_arm.MoveHorizontal(Arm.ArmState.ON);
+		assertEquals(_arm.GetHorizontalState(), Arm.ArmState.ON);
+	}
 
+	@Test
+	public void SetArmHorizontalStateToOffSetsHorizontalSolenoidToFalse() {
+		_arm.MoveHorizontal(Arm.ArmState.OFF);
+		verify(_mockPneumaticHorizontal).set(false);
+	}
+	
+	@Test
+	public void SetArmHorizontalStateToOnSetsHorizontalSolenoidToTrue() {
+		_arm.MoveHorizontal(Arm.ArmState.ON);
+		verify(_mockPneumaticHorizontal).set(true);
+	}
 }

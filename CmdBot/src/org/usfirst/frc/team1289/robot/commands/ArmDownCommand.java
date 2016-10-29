@@ -2,38 +2,44 @@
 package org.usfirst.frc.team1289.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1289.robot.Robot;
+import org.usfirst.frc.team1289.robot.subsystems.Arm;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class ArmDownCommand extends Command {
+	private Arm _arm;
 
-    public ExampleCommand() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+	// Constructor
+    public ArmDownCommand(Arm arm) {
+      this._arm = arm;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	_arm.MoveVertical(Arm.ArmState.OFF);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	
     }
 }
+
