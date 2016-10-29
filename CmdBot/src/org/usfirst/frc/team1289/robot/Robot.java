@@ -2,14 +2,14 @@
 package org.usfirst.frc.team1289.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team1289.robot.commands.*;
-import org.usfirst.frc.team1289.robot.subsystems.Arm;
+import org.usfirst.frc.team1289.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.io.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,12 +21,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	private Arm _arm;
+	private DriveTrain _driveTrain;
 	private OI _operatorInterface;
 	private SendableChooser _chooser;
 	private RobotMap _ioMap;
 	private ArmResetCommand _armResetCommand;
 	private ArmUpCommand _armUpCommand;
 	private ArmDownCommand _armDownCommand;
+	
 		
     //Command autonomousCommand;
     
@@ -34,12 +36,22 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
-    	_ioMap.init();
+    public void robotInit()
+    {
+    	try {
+    		_ioMap.init();
+    	} catch (IOException ex) {
+    		System.err.println("Unable to initialize 'bot\n");
+    	}
+    	
     	_arm = new Arm(_ioMap);
     	_armResetCommand = new ArmResetCommand(_arm);
     	_armUpCommand = new ArmUpCommand(_arm);
-    	_armDownCommand = new ArmDownCommand(_arm)
+    	_armDownCommand = new ArmDownCommand(_arm);
+    	
+    	_driveTrain = new DriveTrain(_ioMap);
+    	// pass _driveTrain into various _driveTrainFooCommand constructors)
+    	
     	
     	
 		_operatorInterface = new OI();

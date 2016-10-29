@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.HLUsageReporting.Null;
 
-public class ArmTest {
+public class ArmTests {
 
 	private RobotMap _mockIoMap;
 	private DigitalInput _mockDigitalInput;

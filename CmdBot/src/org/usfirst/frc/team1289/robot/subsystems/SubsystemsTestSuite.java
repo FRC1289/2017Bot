@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	ArmTest.class
+	ArmTests.class,
+	DriveTrainTests.class
 })
 
 public class SubsystemsTestSuite {
