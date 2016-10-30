@@ -46,7 +46,7 @@ public class DriveTrainTests {
 
 	@Test
 	public void test() {
-		assertTrue(true);
+		fail("Not yet implemented");
 	}
 	
 	// tests for:

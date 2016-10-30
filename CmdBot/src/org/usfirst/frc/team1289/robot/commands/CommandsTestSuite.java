@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	ArmResetCommandTests.class,
 	ArmUpCommandTests.class,
-	ArmDownCommandTests.class
+	ArmDownCommandTests.class,
+	DriveViaQuadTests.class
 })
 
 public class CommandsTestSuite {
