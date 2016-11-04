@@ -21,6 +21,7 @@ public class DriveTrainTests {
 	private SpeedController _mockDriveTrainMotorRight;
 	private Encoder _mockDriveTrainLeftQuadEncoder;
 	private Encoder _mockDriveTrainRightQuadEncoder;
+	private DriveTrain _driveTrain;
 	 
 	@Before
 	public void setUp() throws Exception {
@@ -42,15 +43,47 @@ public class DriveTrainTests {
 		when(_mockIoMap.GetDriveTrainLeftQuadEncoder()).thenReturn(_mockDriveTrainLeftQuadEncoder);
 		when(_mockIoMap.GetDriveTrainRightQuadEncoder()).thenReturn(_mockDriveTrainRightQuadEncoder);
 
+		_driveTrain = new DriveTrain(_mockIoMap);
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void MoveForwardCallsMotorSetWithSpeedOf100() {
+		
 	}
 	
-	// tests for:
-	// move robot
-	// get quad
-
+	@Test
+	public void MoveForwardCallsMotorSetWithSpeedOf500 () {
+		
+	}
+	
+	@Test
+	public void MoveBackwardCallsMotorSetWithSpeedOf100() {
+		
+	}
+	
+	@Test
+	public void MoveBackwardCallsMotorSetWithSpeedOf500 () {
+		
+	}
+	
+	@Test
+	public void TurnLeftCallsMotorSetWithSpeedOf100() {
+		
+	}
+	
+	@Test
+	public void TurnLeftCallsMotorSetWithSpeedOf500 () {
+		
+	}
+	
+	@Test
+	public void TurnRightCallsMotorSetWithSpeedOf100() {
+		
+	}
+	
+	@Test
+	public void TurnRightCallsMotorSetWithSpeedOf500 () {
+		
+	}
+	
 }
