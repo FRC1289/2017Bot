@@ -112,4 +112,9 @@ public class RobotMap {
 	 {
 		 return _driveTrainRightQuadEncoder;
 	 }	 
+	 
+	 public double GetDistancerPerEncoderPulse()
+	 {
+		 return _iniParser.get("drivetrain", "EncoderPulseDistance", double.class); 
+	 }
 }

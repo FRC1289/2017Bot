@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team1289.robot.commands.*;
 import org.usfirst.frc.team1289.robot.subsystems.*;
+import org.usfirst.frc1289.stronghold.commands.AutoLowBar;
+import org.usfirst.frc1289.stronghold.commands.DriveViaQuad;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,11 +25,8 @@ public class Robot extends IterativeRobot {
 	private Arm _arm;
 	private DriveTrain _driveTrain;
 	private OI _operatorInterface;
-	private SendableChooser _chooser;
 	private RobotMap _ioMap;
-	private ArmResetCommand _armResetCommand;
-	private ArmUpCommand _armUpCommand;
-	private ArmDownCommand _armDownCommand;
+	public SendableChooser autoChooser;
 	
 		
     //Command autonomousCommand;
@@ -45,20 +44,17 @@ public class Robot extends IterativeRobot {
     	}
     	
     	_arm = new Arm(_ioMap);
-    	_armResetCommand = new ArmResetCommand(_arm);
-    	_armUpCommand = new ArmUpCommand(_arm);
-    	_armDownCommand = new ArmDownCommand(_arm);
     	
     	_driveTrain = new DriveTrain(_ioMap);
-    	// pass _driveTrain into various _driveTrainFooCommand constructors)
-    	
-    	
-    	
+  		
 		_operatorInterface = new OI();
-        _chooser = new SendableChooser();
-        //_chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", _chooser);
+		
+		autoChooser = new SendableChooser();
+    	autoChooser.addDefault("Drive Slow", new DriveViaQuad(_driveTrain, 0.5, 80));
+    	autoChooser.addObject("Drive Fast", new DriveViaQuad(_driveTrain, 1.0, 80));
+        
+    	SmartDashboard.putData("Autonomous Mode Action", autoChooser);
+        
     }
 	
 	/**
