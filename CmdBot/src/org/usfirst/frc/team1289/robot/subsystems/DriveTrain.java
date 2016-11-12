@@ -26,14 +26,15 @@ public class DriveTrain {
 	}
 
 	public void Reset() {
-		_leftMotor.setInverted(false);
-		_rightMotor.setInverted(true);
-		_leftEncoder.setReverseDirection(false);
-		_rightEncoder.setReverseDirection(true);
 		_leftMotor.stopMotor();
-		_rightMotor.stopMotor();
 		_leftEncoder.reset();
+		_leftMotor.setInverted(false);
+		_leftEncoder.setReverseDirection(false);
+		
+		_rightMotor.stopMotor();
 		_rightEncoder.reset();
+		_rightMotor.setInverted(true);
+		_rightEncoder.setReverseDirection(true);
 	}
 	
 	public void Initialize(double speed) 

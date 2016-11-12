@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.usfirst.frc.team1289.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1289.robot.commands.DriveViaQuad;
 
@@ -62,6 +63,23 @@ public class DriveViaQuadTests {
 	{
 		_driveViaQuad.end();
 		verify(_mockDriveTrain).Reset();
+	}
+	
+	@Test
+	public void EndStopsTheDriveTrain()
+	{
+		_driveViaQuad.end();
+		verify(_mockDriveTrain).Stop();
+	}
+	
+	@Test
+	public void EndStopsAndResetsInCorrectOrder()
+	{
+		InOrder inOrder = inOrder(_mockDriveTrain);
+		
+		_driveViaQuad.end();
+		inOrder.verify(_mockDriveTrain).Stop();
+		inOrder.verify(_mockDriveTrain).Reset();
 	}
 	
 	@Test

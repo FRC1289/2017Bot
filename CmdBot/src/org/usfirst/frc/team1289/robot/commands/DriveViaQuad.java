@@ -43,6 +43,7 @@ public class DriveViaQuad extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		_driveTrain.Stop();
 		_driveTrain.Reset();
 	}
 

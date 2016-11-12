@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.usfirst.frc.team1289.robot.RobotMap;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Encoder;
@@ -45,39 +46,30 @@ public class DriveTrainTests {
 
 		_driveTrain = new DriveTrain(_mockIoMap);
 	}
-	
+
 	@Test
-	public void ResetInitializesCorrectMotorInversion() 
+	public void ResetResetsLeftSideDevicesInCorrectOrder()
 	{
+		InOrder inOrder = inOrder(_mockDriveTrainMotorLeft, _mockDriveTrainEncoderLeft);
+		
 		_driveTrain.Reset();
-		verify(_mockDriveTrainMotorLeft).setInverted(false);
-		verify(_mockDriveTrainMotorRight).setInverted(true);
+		inOrder.verify(_mockDriveTrainMotorLeft).stopMotor();
+		inOrder.verify(_mockDriveTrainEncoderLeft).reset();
+		inOrder.verify(_mockDriveTrainMotorLeft).setInverted(false);
+		inOrder.verify(_mockDriveTrainEncoderLeft).setReverseDirection(false);
 	}
 	
 	@Test
-	public void ResetInitializesCorrectEncoderInversion()
+	public void ResetResetsRightSideDevicesInCorrectOrder()
 	{
+		InOrder inOrder = inOrder(_mockDriveTrainMotorRight, _mockDriveTrainEncoderRight);
+		
 		_driveTrain.Reset();
-		verify(_mockDriveTrainEncoderLeft).setReverseDirection(false);
-		verify(_mockDriveTrainEncoderRight).setReverseDirection(true);
+		inOrder.verify(_mockDriveTrainMotorRight).stopMotor();
+		inOrder.verify(_mockDriveTrainEncoderRight).reset();
+		inOrder.verify(_mockDriveTrainMotorRight).setInverted(true);
+		inOrder.verify(_mockDriveTrainEncoderRight).setReverseDirection(true);
 	}
-	
-	@Test
-	public void ResetResetsEncoderCounts()
-	{
-		_driveTrain.Reset();
-		verify(_mockDriveTrainEncoderLeft).reset();
-		verify(_mockDriveTrainEncoderRight).reset();
-	}
-	
-	@Test
-	public void ResetStopsMotors() 
-	{
-		_driveTrain.Reset();
-		verify(_mockDriveTrainMotorLeft).stopMotor();
-		verify(_mockDriveTrainMotorRight).stopMotor();
-	}
-	
 	@Test
 	public void InitializeSetsMotorSpeedToAGivenValue()
 	{
