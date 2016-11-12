@@ -9,8 +9,7 @@ import org.usfirst.frc.team1289.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.io.*;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,14 +20,12 @@ import java.io.*;
  */
 public class Robot extends IterativeRobot {
 
-	private Arm _arm;
+	//private Arm _arm;
 	private DriveTrain _driveTrain;
 	private OI _operatorInterface;
 	private RobotMap _ioMap;
-	public SendableChooser autoChooser;
-	
-		
-    //Command autonomousCommand;
+	public Command _autonomousCommand;
+	public SendableChooser _autoChooser;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -36,24 +33,18 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit()
     {
-    	try {
-    		_ioMap.init();
-    	} catch (IOException ex) {
-    		System.err.println("Unable to initialize 'bot\n");
-    	}
+    	_ioMap.init();
     	
-    	_arm = new Arm(_ioMap);
+    	//_arm = new Arm(_ioMap);
     	
     	_driveTrain = new DriveTrain(_ioMap);
   		
+    	_autoChooser = new SendableChooser();
+    	_autoChooser.addDefault("Default", new DriveViaQuad(_driveTrain, 0.1, 12.0));
+    	_autoChooser.addObject("LongForward", new DriveViaQuad(_driveTrain, 0.5, 96.0));
+    	SmartDashboard.putData("Auto Mode Chooser", _autoChooser);
+    	
 		_operatorInterface = new OI();
-		
-		autoChooser = new SendableChooser();
-    	autoChooser.addDefault("Drive Slow", new DriveViaQuad(_driveTrain, 0.5, 80));
-    	autoChooser.addObject("Drive Fast", new DriveViaQuad(_driveTrain, 1.0, 80));
-        
-    	SmartDashboard.putData("Autonomous Mode Action", autoChooser);
-        
     }
 	
 	/**
@@ -79,7 +70,10 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        //autonomousCommand = (Command) chooser.getSelected();
+    	
+    	_autonomousCommand = (Command) _autoChooser.getSelected();
+    	if (_autonomousCommand != null)
+    		_autonomousCommand.start();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
