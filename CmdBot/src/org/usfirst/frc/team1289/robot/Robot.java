@@ -3,10 +3,9 @@ package org.usfirst.frc.team1289.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team1289.robot.commands.*;
 import org.usfirst.frc.team1289.robot.subsystems.*;
-import org.usfirst.frc1289.stronghold.commands.AutoLowBar;
-import org.usfirst.frc1289.stronghold.commands.DriveViaQuad;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
