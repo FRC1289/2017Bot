@@ -2,6 +2,7 @@ package org.usfirst.frc.team1289.robot.commands;
 
 import org.usfirst.frc.team1289.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveViaQuad extends Command {
 	private DriveTrain _driveTrain;
@@ -31,10 +32,15 @@ public class DriveViaQuad extends Command {
 		double distancePerPulse = _driveTrain.GetEncoderPulseDistance();
 		
 		// convert count to distance & average the two values
-		double leftDistance = _driveTrain.GetLeftEncoderCount() * distancePerPulse;
-		double rightDistance = _driveTrain.GetRightEncoderCount() * distancePerPulse; 
-		double averageDistance = (leftDistance + rightDistance) / 2.0;
+		int leftCount = _driveTrain.GetLeftEncoderCount();
+		int rightCount = _driveTrain.GetRightEncoderCount();
+		double leftDistance = leftCount * distancePerPulse;
+		double rightDistance = rightCount * distancePerPulse; 
+		double averageDistance = Math.abs((leftDistance + rightDistance) / 2.0);
 		
+		//SmartDashboard.putNumber("LeftEncoderCount", leftCount);
+		//SmartDashboard.putNumber("RightEncoderCount", rightCount);
+		//SmartDashboard.putNumber("Distance", averageDistance);
 		if (averageDistance < _distance)
 			return false;
 		else

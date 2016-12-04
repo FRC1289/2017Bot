@@ -1,7 +1,15 @@
 
 package org.usfirst.frc.team1289.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team1289.robot.commands.*;
@@ -22,15 +30,20 @@ public class Robot extends IterativeRobot {
 
 	//private Arm _arm;
 	private DriveTrain _driveTrain;
-	private OI _operatorInterface;
+	private OperatorInterface _operatorInterface;
 	private RobotMap _ioMap;
-	public Command _autonomousCommand;
 	public SendableChooser _autoChooser;
     
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+	
+	public Robot()
+	{
+		this._ioMap = new RobotMap();
+	}
+	
     public void robotInit()
     {
     	_ioMap.init();
@@ -40,11 +53,11 @@ public class Robot extends IterativeRobot {
     	_driveTrain = new DriveTrain(_ioMap);
   		
     	_autoChooser = new SendableChooser();
-    	_autoChooser.addDefault("Default", new DriveViaQuad(_driveTrain, 0.1, 12.0));
+    	_autoChooser.addDefault("ShortForward", new DriveViaQuad(_driveTrain, 0.1, 12.0));
     	_autoChooser.addObject("LongForward", new DriveViaQuad(_driveTrain, 0.5, 96.0));
     	SmartDashboard.putData("Auto Mode Chooser", _autoChooser);
     	
-		_operatorInterface = new OI();
+		_operatorInterface = new OperatorInterface(_ioMap);
     }
 	
 	/**
@@ -60,34 +73,11 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
-	 */
     public void autonomousInit() {
     	
-    	_autonomousCommand = (Command) _autoChooser.getSelected();
-    	if (_autonomousCommand != null)
-    		_autonomousCommand.start();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
-        //if (autonomousCommand != null) autonomousCommand.start();
+    	Command autonomousCommand = (Command) _autoChooser.getSelected();
+    	if (autonomousCommand != null)
+    		autonomousCommand.start();
     }
 
     /**
@@ -95,6 +85,9 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("Left Encoder Count", _driveTrain.GetLeftEncoderCount());
+        SmartDashboard.putNumber("Right Encoder Count", _driveTrain.GetRightEncoderCount());
+        
     }
 
     public void teleopInit() {
@@ -118,4 +111,6 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
+    
+ 
 }

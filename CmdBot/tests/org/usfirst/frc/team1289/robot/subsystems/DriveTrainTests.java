@@ -55,8 +55,8 @@ public class DriveTrainTests {
 		_driveTrain.Reset();
 		inOrder.verify(_mockDriveTrainMotorLeft).stopMotor();
 		inOrder.verify(_mockDriveTrainEncoderLeft).reset();
-		inOrder.verify(_mockDriveTrainMotorLeft).setInverted(false);
-		inOrder.verify(_mockDriveTrainEncoderLeft).setReverseDirection(false);
+		inOrder.verify(_mockDriveTrainMotorLeft).setInverted(true);
+		inOrder.verify(_mockDriveTrainEncoderLeft).setReverseDirection(true);
 	}
 	
 	@Test
@@ -67,8 +67,8 @@ public class DriveTrainTests {
 		_driveTrain.Reset();
 		inOrder.verify(_mockDriveTrainMotorRight).stopMotor();
 		inOrder.verify(_mockDriveTrainEncoderRight).reset();
-		inOrder.verify(_mockDriveTrainMotorRight).setInverted(true);
-		inOrder.verify(_mockDriveTrainEncoderRight).setReverseDirection(true);
+		inOrder.verify(_mockDriveTrainMotorRight).setInverted(false);
+		inOrder.verify(_mockDriveTrainEncoderRight).setReverseDirection(false);
 	}
 	@Test
 	public void InitializeSetsMotorSpeedToAGivenValue()
@@ -109,8 +109,8 @@ public class DriveTrainTests {
 	public void MoveForwardSetsCorrectMotorInversion() 
 	{
 		_driveTrain.MoveForward();
-		verify(_mockDriveTrainMotorLeft).setInverted(false);
-		verify(_mockDriveTrainMotorRight).setInverted(true);
+		verify(_mockDriveTrainMotorLeft).setInverted(true);
+		verify(_mockDriveTrainMotorRight).setInverted(false);
 	}
 	
 	@Test
@@ -135,8 +135,8 @@ public class DriveTrainTests {
 	public void MoveBackwardSetsCorrectMotorInversion() 
 	{
 		_driveTrain.MoveBackward();
-		verify(_mockDriveTrainMotorLeft).setInverted(true);
-		verify(_mockDriveTrainMotorRight).setInverted(false);
+		verify(_mockDriveTrainMotorLeft).setInverted(false);
+		verify(_mockDriveTrainMotorRight).setInverted(true);
 	}
 	
 	@Test

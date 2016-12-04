@@ -2,6 +2,7 @@ package org.usfirst.frc.team1289.robot.subsystems;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 
 import org.usfirst.frc.team1289.robot.RobotMap;
@@ -28,13 +29,13 @@ public class DriveTrain {
 	public void Reset() {
 		_leftMotor.stopMotor();
 		_leftEncoder.reset();
-		_leftMotor.setInverted(false);
-		_leftEncoder.setReverseDirection(false);
+		_leftMotor.setInverted(true);
+		_leftEncoder.setReverseDirection(true);
 		
 		_rightMotor.stopMotor();
 		_rightEncoder.reset();
-		_rightMotor.setInverted(true);
-		_rightEncoder.setReverseDirection(true);
+		_rightMotor.setInverted(false);
+		_rightEncoder.setReverseDirection(false);
 	}
 	
 	public void Initialize(double speed) 
@@ -72,16 +73,16 @@ public class DriveTrain {
 	
 	public void MoveForward()
 	{
-		_leftMotor.setInverted(false);
-		_rightMotor.setInverted(true);
+		_leftMotor.setInverted(true);
+		_rightMotor.setInverted(false);
 		_leftMotor.set(_speed);
 		_rightMotor.set(_speed);
 	}
 	
 	public void MoveBackward()
 	{
-		_leftMotor.setInverted(true);
-		_rightMotor.setInverted(false);
+		_leftMotor.setInverted(false);
+		_rightMotor.setInverted(true);
 		_leftMotor.set(_speed);
 		_rightMotor.set(_speed);
 	}
