@@ -51,13 +51,13 @@ public class Robot extends IterativeRobot {
     	//_arm = new Arm(_ioMap);
     	
     	_driveTrain = new DriveTrain(_ioMap);
-  		
+    	_operatorInterface = new OperatorInterface(_ioMap);
+    	
     	_autoChooser = new SendableChooser();
     	_autoChooser.addDefault("ShortForward", new DriveViaQuad(_driveTrain, 0.1, 12.0));
     	_autoChooser.addObject("LongForward", new DriveViaQuad(_driveTrain, 0.5, 96.0));
+    	_autoChooser.addObject("StickDrive", new DriveViaStick(_driveTrain, _operatorInterface));
     	SmartDashboard.putData("Auto Mode Chooser", _autoChooser);
-    	
-		_operatorInterface = new OperatorInterface(_ioMap);
     }
 	
 	/**

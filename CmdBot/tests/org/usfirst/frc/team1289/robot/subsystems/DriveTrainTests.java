@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.usfirst.frc.team1289.robot.RobotMap;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.HLUsageReporting;
@@ -22,6 +23,7 @@ public class DriveTrainTests {
 	private SpeedController _mockDriveTrainMotorRight;
 	private Encoder _mockDriveTrainEncoderLeft;
 	private Encoder _mockDriveTrainEncoderRight;
+	private Joystick _mockJoystick;
 	private DriveTrain _driveTrain;
 	 
 	@Before
@@ -33,43 +35,33 @@ public class DriveTrainTests {
 		
 		_mockIoMap = mock(RobotMap.class);
 		_mockRobotDrive = mock(RobotDrive.class);
-		_mockDriveTrainMotorLeft = mock(SpeedController.class);
-		_mockDriveTrainMotorRight = mock(SpeedController.class);
+		_mockJoystick = mock(Joystick.class);
 		_mockDriveTrainEncoderLeft = mock(Encoder.class);
 		_mockDriveTrainEncoderRight = mock(Encoder.class);
 		
 		when(_mockIoMap.GetRobotDrive()).thenReturn(_mockRobotDrive);
-		when(_mockIoMap.GetDriveTrainLeftMotor()).thenReturn(_mockDriveTrainMotorLeft);
-		when(_mockIoMap.GetDriveTrainRightMotor()).thenReturn(_mockDriveTrainMotorRight);
 		when(_mockIoMap.GetDriveTrainLeftQuadEncoder()).thenReturn(_mockDriveTrainEncoderLeft);
 		when(_mockIoMap.GetDriveTrainRightQuadEncoder()).thenReturn(_mockDriveTrainEncoderRight);
+		when(_mockIoMap.GetJoystick()).thenReturn(_mockJoystick);
 
 		_driveTrain = new DriveTrain(_mockIoMap);
 	}
-
-	@Test
-	public void ResetResetsLeftSideDevicesInCorrectOrder()
-	{
-		InOrder inOrder = inOrder(_mockDriveTrainMotorLeft, _mockDriveTrainEncoderLeft);
-		
-		_driveTrain.Reset();
-		inOrder.verify(_mockDriveTrainMotorLeft).stopMotor();
-		inOrder.verify(_mockDriveTrainEncoderLeft).reset();
-		inOrder.verify(_mockDriveTrainMotorLeft).setInverted(true);
-		inOrder.verify(_mockDriveTrainEncoderLeft).setReverseDirection(true);
-	}
 	
 	@Test
-	public void ResetResetsRightSideDevicesInCorrectOrder()
+	public void ResetStopsMotors()
 	{
-		InOrder inOrder = inOrder(_mockDriveTrainMotorRight, _mockDriveTrainEncoderRight);
+		InOrder inOrder = inOrder(_mockRobotDrive, _mockDriveTrainEncoderLeft, _mockDriveTrainEncoderRight);
 		
 		_driveTrain.Reset();
-		inOrder.verify(_mockDriveTrainMotorRight).stopMotor();
+		inOrder.verify(_mockRobotDrive).stopMotor();
+		inOrder.verify(_mockRobotDrive).setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+		inOrder.verify(_mockRobotDrive).setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+		inOrder.verify(_mockDriveTrainEncoderLeft).reset();
 		inOrder.verify(_mockDriveTrainEncoderRight).reset();
-		inOrder.verify(_mockDriveTrainMotorRight).setInverted(false);
-		inOrder.verify(_mockDriveTrainEncoderRight).setReverseDirection(false);
+		inOrder.verify(_mockDriveTrainEncoderLeft).setReverseDirection(false);
+		inOrder.verify(_mockDriveTrainEncoderRight).setReverseDirection(true);
 	}
+	
 	@Test
 	public void InitializeSetsMotorSpeedToAGivenValue()
 	{
@@ -106,20 +98,11 @@ public class DriveTrainTests {
 	}
 	
 	@Test
-	public void MoveForwardSetsCorrectMotorInversion() 
-	{
-		_driveTrain.MoveForward();
-		verify(_mockDriveTrainMotorLeft).setInverted(true);
-		verify(_mockDriveTrainMotorRight).setInverted(false);
-	}
-	
-	@Test
 	public void MoveForwardCallsMotorSetWithSpeedOf0point5() 
 	{
 		_driveTrain.Initialize(0.5);
 		_driveTrain.MoveForward();
-		verify(_mockDriveTrainMotorLeft).set(0.5);
-		verify(_mockDriveTrainMotorRight).set(0.5);
+		verify(_mockRobotDrive).setLeftRightMotorOutputs(0.5, 0.5);
 	}
 	
 	@Test
@@ -127,16 +110,7 @@ public class DriveTrainTests {
 	{
 		_driveTrain.Initialize(0.2);
 		_driveTrain.MoveForward();
-		verify(_mockDriveTrainMotorLeft).set(0.2);
-		verify(_mockDriveTrainMotorRight).set(0.2);
-	}
-	
-	@Test
-	public void MoveBackwardSetsCorrectMotorInversion() 
-	{
-		_driveTrain.MoveBackward();
-		verify(_mockDriveTrainMotorLeft).setInverted(false);
-		verify(_mockDriveTrainMotorRight).setInverted(true);
+		verify(_mockRobotDrive).setLeftRightMotorOutputs(0.2, 0.2);
 	}
 	
 	@Test
@@ -144,8 +118,7 @@ public class DriveTrainTests {
 	{
 		_driveTrain.Initialize(0.4);
 		_driveTrain.MoveBackward();
-		verify(_mockDriveTrainMotorLeft).set(0.4);
-		verify(_mockDriveTrainMotorRight).set(0.4);
+		verify(_mockRobotDrive).setLeftRightMotorOutputs(-0.4, -0.4);
 	}
 	
 	@Test
@@ -153,15 +126,21 @@ public class DriveTrainTests {
 	{
 		_driveTrain.Initialize(0.9);
 		_driveTrain.MoveBackward();
-		verify(_mockDriveTrainMotorLeft).set(0.9);
-		verify(_mockDriveTrainMotorRight).set(0.9);
+		verify(_mockRobotDrive).setLeftRightMotorOutputs(-0.9, -0.9);
+	}
+	
+	@Test
+	public void MoveCallsArcadeDrive()
+	{	
+		Joystick stick = _mockIoMap.GetJoystick();
+		_driveTrain.Move();
+		verify(_mockRobotDrive).arcadeDrive(stick);
 	}
 	
 	@Test
 	public void StopStopsMotors()
 	{
 		_driveTrain.Stop();
-		verify(_mockDriveTrainMotorLeft).stopMotor();
-		verify(_mockDriveTrainMotorRight).stopMotor();
+		verify(_mockRobotDrive).stopMotor();
 	}
 }
