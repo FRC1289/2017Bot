@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team1289.robot.commands.DriveViaJoystick;
-import org.usfirst.frc.team1289.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1289.robot.commands.*;
+import org.usfirst.frc.team1289.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,8 +34,8 @@ public class Robot extends IterativeRobot {
 		_operatorInterface = new OperatorInterface();
         _chooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
-        _chooser.addDefault("Default Auto", new DriveViaJoystick());
-//        chooser.addObject("My Auto", new MyAutoCommand());
+        _chooser.addDefault("Default Teleop", new DriveViaJoystick());
+        _chooser.addObject("Auto Cmd", new DriveViaEncoder(0.1, 96.0));
         SmartDashboard.putData("Auto mode", _chooser);
     }
 	
@@ -76,7 +76,8 @@ public class Robot extends IterativeRobot {
 		} */
     	
     	// schedule the autonomous command (example)
-        if (_autonomousCommand != null) _autonomousCommand.start();
+        if (_autonomousCommand != null) 
+        	_autonomousCommand.start();
     }
 
     /**

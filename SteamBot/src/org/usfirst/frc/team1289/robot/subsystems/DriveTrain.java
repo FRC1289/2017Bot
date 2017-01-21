@@ -6,6 +6,7 @@ import org.usfirst.frc.team1289.robot.OperatorInterface;
 import org.usfirst.frc.team1289.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -45,7 +46,15 @@ public class DriveTrain extends Subsystem
 
     public void ArcadeDrive()
     {
-    	_robotDrive.arcadeDrive(OperatorInterface.joyStick);
+    	// this is inverted from what the WPI code says X & Y represent.
+    	// but on-bot testing shows it works. And you have to negate the Y value...
+    	double rotateValue =  -(OperatorInterface.joyStick.getY());
+    	double moveValue = OperatorInterface.joyStick.getX();
+    	
+    	SmartDashboard.putNumber("stickMoveValue", moveValue);
+    	SmartDashboard.putNumber("stickRotateValue", rotateValue);
+    	
+    	_robotDrive.arcadeDrive(moveValue, rotateValue, true);
     }
     
     public void Stop()
