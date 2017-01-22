@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class IOMap {
 	// IO Ports
-	private static final int _io_DriveTrainLeftMotor = 0;
-	private static final int _io_DriveTrainRightMotor = 1;
+	private static final int _io_DriveTrainLeftFrontMotor = 6;//0;
+	private static final int _io_DriveTrainRightFrontMotor = 7;//1;
+	private static final int _io_DriveTrainLeftRearMotor = 8;//2;
+	private static final int _io_DriveTrainRightRearMotor = 9;//3;
 	private static final int _io_EncoderLeft_A_Source = 0;
 	private static final int _io_EncoderLeft_B_Source = 1;
 	private static final int _io_EncoderRight_A_Source = 3;
@@ -26,17 +28,20 @@ public class IOMap {
 	public static final int _io_JoystickPort = 0;
 	
 	// 
-	public static SpeedController driveTrainMotorLeft;
-	public static SpeedController driveTrainMotorRight;
+	public static SpeedController driveTrainMotorLeftFront;
+	public static SpeedController driveTrainMotorRightFront;
+	public static SpeedController driveTrainMotorLeftRear;
+	public static SpeedController driveTrainMotorRightRear;
     public static RobotDrive driveTrainRobotDrive;
-    public static Encoder driveTrainLeftEncoder;
-	public static Encoder driveTrainRightEncoder;
+//    public static Encoder driveTrainLeftEncoder;
+//	public static Encoder driveTrainRightEncoder;
 	
 	private static final boolean _io_DriveTrainSafetyEnabled = true;
 	private static final double _io_DriveTrainExpiration = 0.1;
 	private static final double _io_DriveTrainSensitivity = 0.1;
 	private static final double _io_DriveTrainMaxOutput = 1.0;
 	private static final double _io_WheelDiameter = 8.5;
+	private static final double _io_EncoderPulsesPerRotation = 360.0;
 	private static final boolean _io_EncoderLeftReverse = false;
 	private static final boolean _io_EncoderRightReverse = true;
 	private static double _encoderPulseDistance;
@@ -48,13 +53,22 @@ public class IOMap {
     
     public static void init()
     {
-        driveTrainMotorLeft = new Talon(_io_DriveTrainLeftMotor);
-        LiveWindow.addActuator("DriveTrain", "MotorLeft", (Talon) driveTrainMotorLeft);
+        driveTrainMotorLeftFront = new Talon(_io_DriveTrainLeftFrontMotor);
+        LiveWindow.addActuator("DriveTrain", "MotorLeftFront", (Talon) driveTrainMotorLeftFront);
         
-        driveTrainMotorRight = new Talon(_io_DriveTrainRightMotor);
-        LiveWindow.addActuator("DriveTrain", "MotorRight", (Talon) driveTrainMotorRight);
+        driveTrainMotorRightFront = new Talon(_io_DriveTrainRightFrontMotor);
+        LiveWindow.addActuator("DriveTrain", "MotorRightFront", (Talon) driveTrainMotorRightFront);
      
-        driveTrainRobotDrive = new RobotDrive(driveTrainMotorLeft, driveTrainMotorRight);
+        driveTrainRobotDrive = new RobotDrive(driveTrainMotorLeftFront, driveTrainMotorRightFront);
+        
+        driveTrainMotorLeftRear = new Talon(_io_DriveTrainLeftRearMotor);
+        LiveWindow.addActuator("DriveTrain", "MotorLeftRear", (Talon) driveTrainMotorLeftRear);
+        
+        driveTrainMotorRightRear = new Talon(_io_DriveTrainRightRearMotor);
+        LiveWindow.addActuator("DriveTrain", "MotorRightRear", (Talon) driveTrainMotorRightRear);
+     
+        driveTrainRobotDrive = new RobotDrive(driveTrainMotorLeftFront, driveTrainMotorLeftRear, 
+        									driveTrainMotorRightFront, driveTrainMotorRightRear);
         
         driveTrainRobotDrive.setSafetyEnabled(_io_DriveTrainSafetyEnabled);
         driveTrainRobotDrive.setExpiration(_io_DriveTrainExpiration);
@@ -62,22 +76,24 @@ public class IOMap {
         driveTrainRobotDrive.setMaxOutput(_io_DriveTrainMaxOutput);
 
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         
-        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
-        		_io_EncoderLeftReverse, EncodingType.k4X);
-
-        driveTrainRightEncoder = new Encoder(_io_EncoderRight_A_Source, _io_EncoderRight_B_Source, 
-        		_io_EncoderRightReverse, EncodingType.k4X);
+//        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
+//        		_io_EncoderLeftReverse, EncodingType.k4X);
+//
+//        driveTrainRightEncoder = new Encoder(_io_EncoderRight_A_Source, _io_EncoderRight_B_Source, 
+//        		_io_EncoderRightReverse, EncodingType.k4X);
 
         // Distance Per Pulse = Diameter of Wheel (8.5in * Pi)/360 pulses per revolution = .0741765in
         // NOTE right quadrature encoder turns in opposite direction from left.
-        _encoderPulseDistance = (_io_WheelDiameter * Math.PI) / 360.0; //8.5" => 0.0741765 "/pulse;
+        // (8.5 * PI) / 360 = 0.0741765 inches/pulse;
+        _encoderPulseDistance = (_io_WheelDiameter * Math.PI) / _io_EncoderPulsesPerRotation; 
 
-        driveTrainLeftEncoder.setDistancePerPulse(_encoderPulseDistance);
-        driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        LiveWindow.addSensor("DriveTrain", "LeftQuadEncoder", driveTrainLeftEncoder);
-        driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
-        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
+//        driveTrainLeftEncoder.setDistancePerPulse(_encoderPulseDistance);
+//        driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+//        LiveWindow.addSensor("DriveTrain", "LeftQuadEncoder", driveTrainLeftEncoder);
+//        driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
+//        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+//        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
     }
 }
