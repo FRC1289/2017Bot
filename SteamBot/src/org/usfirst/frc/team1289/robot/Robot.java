@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static DriveTrain _drivetrainSubsystem;
+	public static Cradle _cradleSubsystem;
+	public static Winch _winchSubsystem;
 	public static OperatorInterface _operatorInterface;
 
     Command _autonomousCommand;
@@ -34,6 +36,8 @@ public class Robot extends IterativeRobot {
 		_operatorInterface = new OperatorInterface();
         _chooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
+        _cradleSubsystem = new Cradle();
+        _winchSubsystem = new Winch();
         _chooser.addDefault("Default Teleop", new DriveViaJoystick());
         _chooser.addObject("Auto Cmd", new DriveViaEncoder(0.1, 96.0));
         SmartDashboard.putData("Auto mode", _chooser);

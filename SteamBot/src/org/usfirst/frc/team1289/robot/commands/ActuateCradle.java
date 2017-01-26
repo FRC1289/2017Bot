@@ -1,53 +1,38 @@
-
 package org.usfirst.frc.team1289.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1289.robot.IOMap;
 import org.usfirst.frc.team1289.robot.Robot;
 
 /**
  *
  */
-public class DriveViaJoystick extends Command {
+public class ActuateCradle extends Command {
 
-    public DriveViaJoystick() 
-    {
+    public ActuateCradle() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot._drivetrainSubsystem);
+        requires(Robot._cradleSubsystem);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() 
-    {
-    	Robot._drivetrainSubsystem.Stop();
-    	IOMap.driveTrainLeftEncoder.reset();
-    	IOMap.driveTrainRightEncoder.reset();
+    protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() 
-    {
-    	Robot._drivetrainSubsystem.ArcadeDrive();
+    protected void execute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() 
-    {
+    protected boolean isFinished() {
         return false;
     }
 
     // Called once after isFinished returns true
-    protected void end() 
-    {
-    	Robot._drivetrainSubsystem.Stop();
-    	IOMap.driveTrainLeftEncoder.reset();
-    	IOMap.driveTrainRightEncoder.reset();
+    protected void end() {
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() 
-    {
+    protected void interrupted() {
     }
 }

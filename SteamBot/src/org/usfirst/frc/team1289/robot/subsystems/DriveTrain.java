@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  *
@@ -18,8 +19,12 @@ public class DriveTrain extends Subsystem
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static SpeedController _leftMotor = IOMap.driveTrainMotorLeftFront;
-	private static SpeedController _rightMotor = IOMap.driveTrainMotorRightFront;
+	private static SpeedController _leftFrontMotor = IOMap.driveTrainMotorLeftFront;
+	private static SpeedController _rightFrontMotor = IOMap.driveTrainMotorRightFront;
+	private static SpeedController _leftRearMotor = IOMap.driveTrainMotorLeftRear;
+	private static SpeedController _rightRearMotor = IOMap.driveTrainMotorRightRear;
+	private static Encoder _leftEncoder = IOMap.driveTrainLeftEncoder;
+	private static Encoder _rightEncoder = IOMap.driveTrainRightEncoder;
 	private static RobotDrive _robotDrive = IOMap.driveTrainRobotDrive;
 
     public void initDefaultCommand() 
@@ -29,21 +34,14 @@ public class DriveTrain extends Subsystem
     }
     
     // Sets the motor speed of all motors to the desired setting
+    // no rotation value, so no turning. This moves fwd/bkwd only
     public void Move (double speed)
     {
      _robotDrive.arcadeDrive(speed, 0.0);
     }
 
-    // Sets the motor speed in opposite directions so robot turns
-    // Caller has to invert speed to get opposite turning behavior
-    public void Turn(double speed) 
-    {
-    	_leftMotor.set(speed);
-    	_rightMotor.set(-speed);
-    }
-
-    // Scale the raw move value into a piecewise linear equation
-    private double ScaleMoveValue(double rawValue)
+    // Scale the raw value into a piecewise linear equation
+    private double ScaleValue(double rawValue)
     {
     	double slowSlope = 0.4;
     	//double mediumSlope = 1.0;
@@ -74,22 +72,37 @@ public class DriveTrain extends Subsystem
     
     public void ArcadeDrive()
     {
-    	// this is inverted from what the WPI code says X & Y represent.
-    	// but on-bot testing shows it works. And you have to negate the Y value...
     	double moveValue = OperatorInterface.joyStick.getY();
     	double rotateValue = OperatorInterface.joyStick.getX();
     	
-    	moveValue = ScaleMoveValue(moveValue);
+    	moveValue = ScaleValue(moveValue);
+    	rotateValue = ScaleValue(rotateValue);
     	
     	SmartDashboard.putNumber("stickMoveValue", moveValue);
     	SmartDashboard.putNumber("stickRotateValue", rotateValue);
     	
-    	_robotDrive.arcadeDrive(moveValue, rotateValue, true);
+    	_robotDrive.arcadeDrive(moveValue, rotateValue);
     }
     
     public void Stop()
     {
     	_robotDrive.stopMotor();
     }
+    
+    public double GetLeftEncoderDistance()
+    {
+    	return _leftEncoder.getDistance();
+    }
+    
+    public double GetRightEncoderDistance()
+    {
+    	return _rightEncoder.getDistance();
+    }
+    
+   public void ResetEncoders()
+   {
+	   _leftEncoder.reset();
+	   _rightEncoder.reset();
+   }
 }
 

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1289.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.*;
 import org.usfirst.frc.team1289.robot.commands.DriveViaJoystick;
 
 /**
@@ -15,7 +15,8 @@ public class OperatorInterface {
     // number it is.
     public static Joystick joyStick = new Joystick(IOMap._io_JoystickPort);
 
-    // Button button = new JoystickButton(stick, buttonNumber);
+    public static Button cradleButton = new JoystickButton(joyStick, IOMap._io_JoystickCradleMotorButton);
+    public static Button winchButton = new JoystickButton(joyStick, IOMap._io_JoystickWinchMotorButton);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
