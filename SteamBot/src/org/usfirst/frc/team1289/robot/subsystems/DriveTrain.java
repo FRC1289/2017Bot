@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem
     	// 0.5 <= rawValue < 0.8 : y = 1.0x - 0.3 
     	else if (rawValue >= slowToMediumBreakPoint && rawValue < mediumToFastBreakPoint)
     		return rawValue - mediumIntercept;
-    	// -0.8 < rawValue <= -0.5 : y = -1.0x - 0.3
+    	// -0.8 < rawValue <= -0.5 : y = 1.0x + 0.3
     	else if (rawValue > -mediumToFastBreakPoint && rawValue <= -slowToMediumBreakPoint)
     		return rawValue + mediumIntercept;
     	// 0.8 <= rawValue <= 1.0) : y = 2.5x - 1.5

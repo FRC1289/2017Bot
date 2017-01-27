@@ -82,6 +82,8 @@ public class IOMap {
 
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         
         driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
         		_io_EncoderLeftReverse, EncodingType.k4X);
