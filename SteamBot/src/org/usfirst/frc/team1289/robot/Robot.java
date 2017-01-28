@@ -10,6 +10,15 @@ import org.usfirst.frc.team1289.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
+import org.opencv.core.Mat;				/**santosh*/
+import org.opencv.imgproc.Imgproc;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;  /** added by Santosh 012817 **/
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -41,7 +50,27 @@ public class Robot extends IterativeRobot {
         _chooser.addDefault("Default Teleop", new DriveViaJoystick());
         _chooser.addObject("Auto Cmd", new DriveViaEncoder(0.1, 96.0));
         SmartDashboard.putData("Auto mode", _chooser);
-    }
+        
+        new Thread(() -> {			/** santosh Chunk*/
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+            camera.setResolution(640, 480);
+            
+            CvSink cvSink = CameraServer.getInstance().getVideo();
+            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+            
+            Mat source = new Mat();
+            Mat output = new Mat();
+            
+            while(!Thread.interrupted()) {
+                cvSink.grabFrame(source);
+                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+                outputStream.putFrame(output);
+            }
+        }).start();		
+    }/** End of Santosh Chunk*/
+        
+        
+
 	
 	/**
      * This function is called once each time the robot enters Disabled mode.

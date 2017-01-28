@@ -43,31 +43,33 @@ public class DriveTrain extends Subsystem
     // Scale the raw value into a piecewise linear equation
     private double ScaleValue(double rawValue)
     {
-    	double slowSlope = 0.4;
-    	//double mediumSlope = 1.0;
-    	double fastSlope = 2.5;
-    	double slowToMediumBreakPoint = 0.5;
-    	double mediumToFastBreakPoint = 0.8;
-    	double mediumIntercept = 0.3;
-    	double fastIntercept = 1.5;
+    	return Math.pow(rawValue, 3);
     	
-    	// -0.5 < rawValue < 0.5 : y=0.4x+0
-    	if (rawValue > -slowToMediumBreakPoint && rawValue < slowToMediumBreakPoint)
-    		return slowSlope * rawValue;
-    	// 0.5 <= rawValue < 0.8 : y = 1.0x - 0.3 
-    	else if (rawValue >= slowToMediumBreakPoint && rawValue < mediumToFastBreakPoint)
-    		return rawValue - mediumIntercept;
-    	// -0.8 < rawValue <= -0.5 : y = 1.0x + 0.3
-    	else if (rawValue > -mediumToFastBreakPoint && rawValue <= -slowToMediumBreakPoint)
-    		return rawValue + mediumIntercept;
-    	// 0.8 <= rawValue <= 1.0) : y = 2.5x - 1.5
-    	else if (rawValue > mediumToFastBreakPoint && rawValue <= 1.0)
-    		return fastSlope * rawValue - fastIntercept;
-    	// -1.0 <= rawValue < -0.8 : y = -2.5x - 1.5
-    	else if (rawValue <= -1.0 && rawValue >= mediumToFastBreakPoint)
-    		return fastSlope * rawValue + fastIntercept;
-    	else
-    		return rawValue;
+//    	double slowSlope = 0.375;
+//    	double mediumSlope = 3.0;
+//    	double fastSlope = 4;
+//    	double slowToMediumBreakPoint = 0.8;
+//    	double mediumToFastBreakPoint = 0.9;
+//    	double mediumIntercept = 2.1;
+//    	double fastIntercept = 3.0;
+//    	
+//    	// -0.5 < rawValue < 0.5 : y=0.4x+0
+//    	if (rawValue > -slowToMediumBreakPoint && rawValue < slowToMediumBreakPoint)
+//    		return slowSlope * rawValue;
+//    	// 0.5 <= rawValue < 0.8 : y = 1.0x - 0.3 
+//    	else if (rawValue >= slowToMediumBreakPoint && rawValue < mediumToFastBreakPoint)
+//    		return mediumSlope * rawValue - mediumIntercept;
+//    	// -0.8 < rawValue <= -0.5 : y = 1.0x + 0.3
+//    	else if (rawValue > -mediumToFastBreakPoint && rawValue <= -slowToMediumBreakPoint)
+//    		return rawValue + mediumIntercept;
+//    	// 0.8 <= rawValue <= 1.0) : y = 2.5x - 1.5
+//    	else if (rawValue > mediumToFastBreakPoint && rawValue <= 1.0)
+//    		return fastSlope * rawValue - fastIntercept;
+//    	// -1.0 <= rawValue < -0.8 : y = -2.5x - 1.5
+//    	else if (rawValue <= -1.0 && rawValue >= mediumToFastBreakPoint)
+//    		return fastSlope * rawValue + fastIntercept;
+//    	else
+//    		return rawValue;
     }
     
     public void ArcadeDrive()
