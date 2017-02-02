@@ -21,8 +21,8 @@ public class DriveViaJoystick extends Command {
     protected void initialize() 
     {
     	Robot._drivetrainSubsystem.Stop();
-    	IOMap.driveTrainLeftEncoder.reset();
-    	IOMap.driveTrainRightEncoder.reset();
+  //  	IOMap.driveTrainLeftEncoder.reset();
+    //	IOMap.driveTrainRightEncoder.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,8 +41,8 @@ public class DriveViaJoystick extends Command {
     protected void end() 
     {
     	Robot._drivetrainSubsystem.Stop();
-    	IOMap.driveTrainLeftEncoder.reset();
-    	IOMap.driveTrainRightEncoder.reset();
+ //   	IOMap.driveTrainLeftEncoder.reset();
+  //  	IOMap.driveTrainRightEncoder.reset();
     }
 
     // Called when another command which requires one or more of the same

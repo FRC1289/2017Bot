@@ -23,8 +23,8 @@ public class DriveTrain extends Subsystem
 	private static SpeedController _rightFrontMotor = IOMap.driveTrainMotorRightFront;
 	private static SpeedController _leftRearMotor = IOMap.driveTrainMotorLeftRear;
 	private static SpeedController _rightRearMotor = IOMap.driveTrainMotorRightRear;
-	private static Encoder _leftEncoder = IOMap.driveTrainLeftEncoder;
-	private static Encoder _rightEncoder = IOMap.driveTrainRightEncoder;
+//	private static Encoder _leftEncoder = IOMap.driveTrainLeftEncoder;
+//	private static Encoder _rightEncoder = IOMap.driveTrainRightEncoder;
 	private static RobotDrive _robotDrive = IOMap.driveTrainRobotDrive;
 
     public void initDefaultCommand() 
@@ -43,33 +43,20 @@ public class DriveTrain extends Subsystem
     // Scale the raw value into a piecewise linear equation
     private double ScaleValue(double rawValue)
     {
-    	return Math.pow(rawValue, 3);
-    	
-//    	double slowSlope = 0.375;
-//    	double mediumSlope = 3.0;
-//    	double fastSlope = 4;
-//    	double slowToMediumBreakPoint = 0.8;
-//    	double mediumToFastBreakPoint = 0.9;
-//    	double mediumIntercept = 2.1;
-//    	double fastIntercept = 3.0;
-//    	
-//    	// -0.5 < rawValue < 0.5 : y=0.4x+0
-//    	if (rawValue > -slowToMediumBreakPoint && rawValue < slowToMediumBreakPoint)
-//    		return slowSlope * rawValue;
-//    	// 0.5 <= rawValue < 0.8 : y = 1.0x - 0.3 
-//    	else if (rawValue >= slowToMediumBreakPoint && rawValue < mediumToFastBreakPoint)
-//    		return mediumSlope * rawValue - mediumIntercept;
-//    	// -0.8 < rawValue <= -0.5 : y = 1.0x + 0.3
-//    	else if (rawValue > -mediumToFastBreakPoint && rawValue <= -slowToMediumBreakPoint)
-//    		return rawValue + mediumIntercept;
-//    	// 0.8 <= rawValue <= 1.0) : y = 2.5x - 1.5
-//    	else if (rawValue > mediumToFastBreakPoint && rawValue <= 1.0)
-//    		return fastSlope * rawValue - fastIntercept;
-//    	// -1.0 <= rawValue < -0.8 : y = -2.5x - 1.5
-//    	else if (rawValue <= -1.0 && rawValue >= mediumToFastBreakPoint)
-//    		return fastSlope * rawValue + fastIntercept;
-//    	else
-//    		return rawValue;
+    	double deadBand = 0.1;
+    	if (rawValue > -deadBand && rawValue < deadBand)
+    		return 0.0;
+    	else if (rawValue < 0.0) 
+    		// circle 
+    		//return Math.sqrt(1.0 - Math.pow(rawValue + deadBand, 2)) - 1.0;
+    	    // cubic
+    		return Math.pow(rawValue + deadBand, 3);
+    	else 
+    		// rawValue > 0.0
+    		// circle 
+    		// return -Math.sqrt(1.0 - Math.pow(rawValue - deadBand, 2)) - 1.0;
+    		// cubic
+    		return Math.pow(rawValue - deadBand, 3);
     }
     
     public void ArcadeDrive()
@@ -93,18 +80,18 @@ public class DriveTrain extends Subsystem
     
     public double GetLeftEncoderDistance()
     {
-    	return _leftEncoder.getDistance();
+    	return 0.0;//_leftEncoder.getDistance();
     }
     
     public double GetRightEncoderDistance()
     {
-    	return _rightEncoder.getDistance();
+    	return 0.0;//_rightEncoder.getDistance();
     }
     
    public void ResetEncoders()
    {
-	   _leftEncoder.reset();
-	   _rightEncoder.reset();
+	   //_leftEncoder.reset();
+	   //_rightEncoder.reset();
    }
 }
 

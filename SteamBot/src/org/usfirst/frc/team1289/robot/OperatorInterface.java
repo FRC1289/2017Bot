@@ -13,10 +13,12 @@ public class OperatorInterface {
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.
+	private static final int _winchMotorButton = 1;
+	
     public static Joystick joyStick = new Joystick(IOMap._io_JoystickPort);
+    public static Joystick buttonStation = new Joystick(IOMap._io_ButtonStationPort);
 
-    public static Button cradleButton = new JoystickButton(joyStick, IOMap._io_JoystickCradleMotorButton);
-    public static Button winchButton = new JoystickButton(joyStick, IOMap._io_JoystickWinchMotorButton);
+    public static Button winchButton = new JoystickButton(buttonStation, _winchMotorButton);
     
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
