@@ -78,10 +78,11 @@ public class IOMap {
         driveTrainRobotDrive.setSensitivity(_io_DriveTrainSensitivity);
         driveTrainRobotDrive.setMaxOutput(_io_DriveTrainMaxOutput);
 
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+        // Right-Left viewpoint is facing the front of the 'bot.
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, false);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, false);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         
 //        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
 //        		_io_EncoderLeftReverse, EncodingType.k4X);
