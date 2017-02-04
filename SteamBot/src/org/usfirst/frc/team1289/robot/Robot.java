@@ -36,11 +36,12 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	IOMap.init();
+    	_winchSubsystem = new Winch();
 		_operatorInterface = new OperatorInterface();
         _chooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
         _camera = new Camera();
-       // _winchSubsystem = new Winch();
+        
         _chooser.addDefault("Default Teleop", new DriveViaJoystick());
         _chooser.addObject("Auto Cmd", new DriveViaEncoder(0.1, 96.0));
         SmartDashboard.putData("Auto mode", _chooser);

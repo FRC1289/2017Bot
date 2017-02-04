@@ -28,8 +28,8 @@ public class IOMap {
 	public static final int _io_JoystickPort = 0;
 	public static final int _io_ButtonStationPort = 1;
 	
-	public static final int _io_WinchMotor = 3;
-	public static final int _io_WinchSensor = 4;
+	public static final int _io_WinchMotor = 4;
+	//public static final int _io_WinchSensor = 4;
 	// 
 	public static SpeedController driveTrainMotorLeftFront;
 	public static SpeedController driveTrainMotorRightFront;
@@ -45,7 +45,7 @@ public class IOMap {
 	private static final double _io_DriveTrainExpiration = 0.1;
 	private static final double _io_DriveTrainSensitivity = 0.1;
 	private static final double _io_DriveTrainMaxOutput = 1.0;
-	private static final double _io_WheelDiameter = 8.5;
+	private static final double _io_WheelDiameter = 6.0;
 	private static final double _io_EncoderPulsesPerRotation = 360.0;
 	private static final boolean _io_EncoderLeftReverse = false;
 	private static final boolean _io_EncoderRightReverse = true;
@@ -101,8 +101,8 @@ public class IOMap {
 //        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 //        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
 //        
-//        //winchMotor = new Talon(_io_WinchMotor);
-      //  LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);
+        winchMotor = new Talon(_io_WinchMotor);
+        LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);
         
     }
 }

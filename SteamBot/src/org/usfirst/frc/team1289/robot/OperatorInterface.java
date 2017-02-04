@@ -2,7 +2,7 @@ package org.usfirst.frc.team1289.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
-import org.usfirst.frc.team1289.robot.commands.DriveViaJoystick;
+import org.usfirst.frc.team1289.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -15,11 +15,21 @@ public class OperatorInterface {
     // number it is.
 	private static final int _winchMotorButton = 1;
 	
-    public static Joystick joyStick = new Joystick(IOMap._io_JoystickPort);
-    public static Joystick buttonStation = new Joystick(IOMap._io_ButtonStationPort);
-
-    public static Button winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+    public static Joystick joyStick;
+    public static Joystick buttonStation;
+    public static Button winchButton;
     
+    public OperatorInterface()
+    {
+        joyStick = new Joystick(IOMap._io_JoystickPort);
+        buttonStation = new Joystick(IOMap._io_ButtonStationPort);
+        winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+     
+        winchButton.whenPressed(new WinchEnable());
+    	winchButton.whenReleased(new WinchDisable());
+    }
+    
+    //winchButton.whenPressed(new WinchManager());
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.
