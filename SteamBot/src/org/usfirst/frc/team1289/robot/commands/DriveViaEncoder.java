@@ -12,13 +12,13 @@ public class DriveViaEncoder extends Command {
 	private double _speed;
 	private double _distance;
 
-    public DriveViaEncoder(double speed, double distance) 
+    public DriveViaEncoder()
     {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot._drivetrainSubsystem);
-        this._speed = speed;
-        this._distance = distance;
+    	requires(Robot._drivetrainSubsystem);
+    	this._speed = SmartDashboard.getNumber("Auto Speed", 0.1);
+    	this._distance = SmartDashboard.getNumber("Auto Distance", 96.0);
     }
+    
     // Called just before this Command runs the first time
     protected void initialize() 
     {
@@ -40,6 +40,8 @@ public class DriveViaEncoder extends Command {
 		double averageDistance = Math.abs((leftDistance + rightDistance) / 2.0);
 		
 		SmartDashboard.putNumber("Distance", averageDistance);
+		SmartDashboard.putNumber("LeftEncoderCount", Robot._drivetrainSubsystem.GetLeftEncoderCount());
+		SmartDashboard.putNumber("RightEncoderCount", Robot._drivetrainSubsystem.GetRightEncoderCount());
 		
 		if (averageDistance < _distance)
 			return false;

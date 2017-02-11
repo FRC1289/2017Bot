@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public static Camera _camera;
 
     Command _autonomousCommand;
-    SendableChooser _chooser;
+    SendableChooser _autoChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,20 +38,19 @@ public class Robot extends IterativeRobot {
     	IOMap.init();
     	_winchSubsystem = new Winch();
 		_operatorInterface = new OperatorInterface();
-        _chooser = new SendableChooser();
+        _autoChooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
         _camera = new Camera();
         
-        _chooser.addDefault("Default Teleop", new DriveViaJoystick());
-        _chooser.addObject("Auto Cmd", new DriveViaEncoder(0.1, 96.0));
-        SmartDashboard.putData("Auto mode", _chooser);
+        _autoChooser.addDefault("Encoder",  new DriveViaEncoder());
+        _autoChooser.addObject("Stick", new DriveViaJoystick());
+        SmartDashboard.putData("Auto Chooser", _autoChooser);
+
+        smartDashboardInit();
         
         _camera.Start();
     }
-        
-        
-
-	
+  	
 	/**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when
@@ -75,7 +74,8 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        _autonomousCommand = (Command) _chooser.getSelected();
+    	_autonomousCommand = new DriveViaEncoder();
+       // _autonomousCommand = (Command) _autoChooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -108,8 +108,7 @@ public class Robot extends IterativeRobot {
         if (_autonomousCommand != null) 
         	_autonomousCommand.cancel();
         
-        //Read the options from the SmartDashboard
-        Command cmd = (Command) _chooser.getSelected();
+        Command cmd = new DriveViaJoystick(); 
         
         SmartDashboard.putData("Auto Chooser", cmd);
     }
@@ -126,5 +125,16 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    private void smartDashboardInit()
+    {
+        SmartDashboard.putNumber("Auto Speed", 0.1);
+        SmartDashboard.putNumber("Auto Distance", 96.0);
+        SmartDashboard.putNumber("Drivetrain Deadband", 0.05);
+        SmartDashboard.putNumber("Drivetrain BP1", 0.2);
+        SmartDashboard.putNumber("Drivetrain M1", 1.0);
+        SmartDashboard.putNumber("Drivetrain BP2", 0.7);
+        SmartDashboard.putNumber("Drivetrain M2", 0.5); 
     }
 }

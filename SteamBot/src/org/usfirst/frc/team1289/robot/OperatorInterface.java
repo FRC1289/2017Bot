@@ -22,14 +22,14 @@ public class OperatorInterface {
     public OperatorInterface()
     {
         joyStick = new Joystick(IOMap._io_JoystickPort);
-      //  buttonStation = new Joystick(IOMap._io_ButtonStationPort);
-     //   winchButton = new JoystickButton(buttonStation, _winchMotorButton);
-     
-       // winchButton.whenPressed(new WinchEnable());
-    //	winchButton.whenReleased(new WinchDisable());
+//        buttonStation = new Joystick(IOMap._io_ButtonStationPort);
+//        winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+//     
+//        winchButton.whenPressed(new WinchEnable());
+//        winchButton.whenReleased(new WinchDisable());
     }
     
-    //winchButton.whenPressed(new WinchManager());
+    //
     // There are a few additional built in buttons you can use. Additionally,
     // by subclassing Button you can create custom triggers and bind those to
     // commands the same as any other Button.

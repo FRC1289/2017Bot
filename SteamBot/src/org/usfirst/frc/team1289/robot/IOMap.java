@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
+// Right-Left viewpoint is facing the front of the 'bot.
+
 public class IOMap {
 	// IO Ports
 	private static final int _io_DriveTrainLeftFrontMotor = 0;
@@ -46,7 +49,7 @@ public class IOMap {
 	private static final double _io_DriveTrainSensitivity = 0.1;
 	private static final double _io_DriveTrainMaxOutput = 1.0;
 	private static final double _io_WheelDiameter = 6.0;
-	private static final double _io_EncoderPulsesPerRotation = 360.0;
+	private static final double _io_EncoderPulsesPerRotation = 16.0; //360.0;
 	private static final boolean _io_EncoderLeftReverse = false;
 	private static final boolean _io_EncoderRightReverse = true;
 	private static double _encoderPulseDistance;
@@ -78,30 +81,30 @@ public class IOMap {
         driveTrainRobotDrive.setSensitivity(_io_DriveTrainSensitivity);
         driveTrainRobotDrive.setMaxOutput(_io_DriveTrainMaxOutput);
 
-        // Right-Left viewpoint is facing the front of the 'bot.
+
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, false);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, false);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         
-//        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
-//        		_io_EncoderLeftReverse, EncodingType.k4X);
-//
-//        driveTrainRightEncoder = new Encoder(_io_EncoderRight_A_Source, _io_EncoderRight_B_Source, 
-//        		_io_EncoderRightReverse, EncodingType.k4X);
-//
-//        // Distance Per Pulse = Diameter of Wheel (8.5in * Pi)/360 pulses per revolution = .0741765in
-//        // NOTE right quadrature encoder turns in opposite direction from left.
-//        // (8.5 * PI) / 360 = 0.0741765 inches/pulse;
-//        _encoderPulseDistance = (_io_WheelDiameter * Math.PI) / _io_EncoderPulsesPerRotation; 
-//
-//        driveTrainLeftEncoder.setDistancePerPulse(_encoderPulseDistance);
-//        driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-//        LiveWindow.addSensor("DriveTrain", "LeftQuadEncoder", driveTrainLeftEncoder);
-//        driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
-//        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-//        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
-//        
+        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
+        		_io_EncoderLeftReverse, EncodingType.k4X);
+
+        driveTrainRightEncoder = new Encoder(_io_EncoderRight_A_Source, _io_EncoderRight_B_Source, 
+        		_io_EncoderRightReverse, EncodingType.k4X);
+
+        // Distance Per Pulse = Diameter of Wheel (8.5in * Pi)/360 pulses per revolution = .0741765in
+        // NOTE right quadrature encoder turns in opposite direction from left.
+        // (8.5 * PI) / 360 = 0.0741765 inches/pulse;
+        _encoderPulseDistance = (_io_WheelDiameter * Math.PI) / _io_EncoderPulsesPerRotation; 
+
+        driveTrainLeftEncoder.setDistancePerPulse(_encoderPulseDistance);
+        driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+        LiveWindow.addSensor("DriveTrain", "LeftQuadEncoder", driveTrainLeftEncoder);
+        driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
+        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
+        
         winchMotor = new Talon(_io_WinchMotor);
         LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);
         
