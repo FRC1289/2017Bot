@@ -1,11 +1,11 @@
 
 package org.usfirst.frc.team1289.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team1289.robot.IOMap;
 import org.usfirst.frc.team1289.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DriveViaEncoder extends Command {
@@ -15,7 +15,7 @@ public class DriveViaEncoder extends Command {
     public DriveViaEncoder()
     {
     	requires(Robot._drivetrainSubsystem);
-    	this._speed = SmartDashboard.getNumber("Auto Speed", 0.1);
+    	this._speed = SmartDashboard.getNumber("Auto Speed", 0.3);
     	this._distance = SmartDashboard.getNumber("Auto Distance", 96.0);
     }
     
@@ -39,7 +39,9 @@ public class DriveViaEncoder extends Command {
 		double rightDistance = Robot._drivetrainSubsystem.GetRightEncoderDistance();
 		double averageDistance = Math.abs((leftDistance + rightDistance) / 2.0);
 		
-		SmartDashboard.putNumber("Distance", averageDistance);
+		SmartDashboard.putNumber("Left Distance", leftDistance);
+		SmartDashboard.putNumber("Right Distance", rightDistance);
+		SmartDashboard.putNumber("Av Distance", averageDistance);
 		SmartDashboard.putNumber("LeftEncoderCount", Robot._drivetrainSubsystem.GetLeftEncoderCount());
 		SmartDashboard.putNumber("RightEncoderCount", Robot._drivetrainSubsystem.GetRightEncoderCount());
 		

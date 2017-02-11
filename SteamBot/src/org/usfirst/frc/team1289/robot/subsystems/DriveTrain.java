@@ -1,15 +1,16 @@
 
 package org.usfirst.frc.team1289.robot.subsystems;
 
-import org.usfirst.frc.team1289.robot.IOMap;
-import org.usfirst.frc.team1289.robot.OperatorInterface;
-import org.usfirst.frc.team1289.robot.commands.*;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Encoder;
+
+import org.usfirst.frc.team1289.robot.IOMap;
+import org.usfirst.frc.team1289.robot.OperatorInterface;
+import org.usfirst.frc.team1289.robot.commands.*;
+
+import edu.wpi.first.wpilibj.Counter;
 
 /**
  *
@@ -23,8 +24,8 @@ public class DriveTrain extends Subsystem
 	private static SpeedController _rightFrontMotor = IOMap.driveTrainMotorRightFront;
 	private static SpeedController _leftRearMotor = IOMap.driveTrainMotorLeftRear;
 	private static SpeedController _rightRearMotor = IOMap.driveTrainMotorRightRear;
-	private static Encoder _leftEncoder = IOMap.driveTrainLeftEncoder;
-	private static Encoder _rightEncoder = IOMap.driveTrainRightEncoder;
+	private static Counter _leftEncoder = IOMap.driveTrainLeftEncoder;
+	private static Counter _rightEncoder = IOMap.driveTrainRightEncoder;
 	private static RobotDrive _robotDrive = IOMap.driveTrainRobotDrive;
 
     public void initDefaultCommand() 
@@ -39,7 +40,7 @@ public class DriveTrain extends Subsystem
     public void Move(double speed)
     {
     	boolean squareInputs = false; 
-    	_robotDrive.arcadeDrive(speed, 0.0, squareInputs);
+    	_robotDrive.arcadeDrive(0.3 /*speed*/, 0.0, squareInputs);
     }
 
     // Scale the raw value into a piecewise linear equation

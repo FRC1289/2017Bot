@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1289.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -23,11 +23,8 @@ public class IOMap {
 	private static final int _io_DriveTrainRightFrontMotor = 1;
 	private static final int _io_DriveTrainLeftRearMotor = 2;
 	private static final int _io_DriveTrainRightRearMotor = 3;
-	private static final int _io_EncoderLeft_A_Source = 0;
-	private static final int _io_EncoderLeft_B_Source = 1;
-	private static final int _io_EncoderRight_A_Source = 3;
-	private static final int _io_EncoderRight_B_Source = 4;
-	
+	private static final int _io_DriveTrainLeftEncoder = 0;
+	private static final int _io_DriveTrainRightEncoder = 1;
 	public static final int _io_JoystickPort = 0;
 	public static final int _io_ButtonStationPort = 1;
 	
@@ -39,8 +36,8 @@ public class IOMap {
 	public static SpeedController driveTrainMotorLeftRear;
 	public static SpeedController driveTrainMotorRightRear;
     public static RobotDrive driveTrainRobotDrive;
-    public static Encoder driveTrainLeftEncoder;
-	public static Encoder driveTrainRightEncoder;
+    public static Counter driveTrainLeftEncoder;
+	public static Counter driveTrainRightEncoder;
 	
     public static SpeedController winchMotor;
     
@@ -87,11 +84,8 @@ public class IOMap {
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         
-        driveTrainLeftEncoder = new Encoder(_io_EncoderLeft_A_Source, _io_EncoderLeft_B_Source, 
-        		_io_EncoderLeftReverse, EncodingType.k4X);
-
-        driveTrainRightEncoder = new Encoder(_io_EncoderRight_A_Source, _io_EncoderRight_B_Source, 
-        		_io_EncoderRightReverse, EncodingType.k4X);
+        driveTrainLeftEncoder = new Counter(_io_DriveTrainLeftEncoder);
+        driveTrainRightEncoder = new Counter(_io_DriveTrainRightEncoder);
 
         // Distance Per Pulse = Diameter of Wheel (8.5in * Pi)/360 pulses per revolution = .0741765in
         // NOTE right quadrature encoder turns in opposite direction from left.
@@ -99,11 +93,9 @@ public class IOMap {
         _encoderPulseDistance = (_io_WheelDiameter * Math.PI) / _io_EncoderPulsesPerRotation; 
 
         driveTrainLeftEncoder.setDistancePerPulse(_encoderPulseDistance);
-        driveTrainLeftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        LiveWindow.addSensor("DriveTrain", "LeftQuadEncoder", driveTrainLeftEncoder);
+        LiveWindow.addSensor("DriveTrain", "LeftEncoder", driveTrainLeftEncoder);
         driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
-        driveTrainRightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-        LiveWindow.addSensor("DriveTrain", "RightQuadEncoder", driveTrainRightEncoder);
+        LiveWindow.addSensor("DriveTrain", "RightEncoder", driveTrainRightEncoder);
         
         winchMotor = new Talon(_io_WinchMotor);
         LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);

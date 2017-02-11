@@ -1,10 +1,10 @@
 
 package org.usfirst.frc.team1289.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1289.robot.IOMap;
 import org.usfirst.frc.team1289.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *

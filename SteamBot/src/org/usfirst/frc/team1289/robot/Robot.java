@@ -1,12 +1,13 @@
 
 package org.usfirst.frc.team1289.robot;
 
+import org.usfirst.frc.team1289.robot.commands.*;
+import org.usfirst.frc.team1289.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team1289.robot.commands.*;
-import org.usfirst.frc.team1289.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,7 +29,7 @@ public class Robot extends IterativeRobot {
 	public static Camera _camera;
 
     Command _autonomousCommand;
-    SendableChooser _autoChooser;
+ //   SendableChooser _autoChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,13 +39,13 @@ public class Robot extends IterativeRobot {
     	IOMap.init();
     	_winchSubsystem = new Winch();
 		_operatorInterface = new OperatorInterface();
-        _autoChooser = new SendableChooser();
+ //       _autoChooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
         _camera = new Camera();
         
-        _autoChooser.addDefault("Encoder",  new DriveViaEncoder());
-        _autoChooser.addObject("Stick", new DriveViaJoystick());
-        SmartDashboard.putData("Auto Chooser", _autoChooser);
+ //       _autoChooser.addDefault("Encoder",  new DriveViaEncoder());
+  //      _autoChooser.addObject("Stick", new DriveViaJoystick());
+   //     SmartDashboard.putData("Auto Chooser", _autoChooser);
 
         smartDashboardInit();
         
@@ -75,6 +76,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	_autonomousCommand = new DriveViaEncoder();
+    	_autonomousCommand.start();
        // _autonomousCommand = (Command) _autoChooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -89,8 +91,8 @@ public class Robot extends IterativeRobot {
 		} */
     	
     	// schedule the autonomous command (example)
-        if (_autonomousCommand != null) 
-        	_autonomousCommand.start();
+     /*   if (_autonomousCommand != null) 
+        	_autonomousCommand.start();*/
     }
 
     /**
@@ -110,7 +112,7 @@ public class Robot extends IterativeRobot {
         
         Command cmd = new DriveViaJoystick(); 
         
-        SmartDashboard.putData("Auto Chooser", cmd);
+   //     SmartDashboard.putData("Auto Chooser", cmd);
     }
 
     /**
@@ -129,7 +131,7 @@ public class Robot extends IterativeRobot {
     
     private void smartDashboardInit()
     {
-        SmartDashboard.putNumber("Auto Speed", 0.1);
+        SmartDashboard.putNumber("Auto Speed", 0.3);
         SmartDashboard.putNumber("Auto Distance", 96.0);
         SmartDashboard.putNumber("Drivetrain Deadband", 0.05);
         SmartDashboard.putNumber("Drivetrain BP1", 0.2);
