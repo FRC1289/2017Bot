@@ -19,18 +19,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class IOMap {
 	// IO Ports
-	private static final int _io_DriveTrainLeftFrontMotor = 0;
-	private static final int _io_DriveTrainRightFrontMotor = 1;
-	private static final int _io_DriveTrainLeftRearMotor = 2;
-	private static final int _io_DriveTrainRightRearMotor = 3;
-	private static final int _io_DriveTrainLeftEncoder = 0;
-	private static final int _io_DriveTrainRightEncoder = 1;
+	private static final int _pwm_DriveTrainLeftFrontMotor = 0;
+	private static final int _pwm_DriveTrainRightFrontMotor = 1;
+	private static final int _pwm_DriveTrainLeftRearMotor = 2;
+	private static final int _pwm_DriveTrainRightRearMotor = 3;
+	private static final int _dio_DriveTrainLeftEncoder = 0;
+	private static final int _dio_DriveTrainRightEncoder = 1;
 	public static final int _io_JoystickPort = 0;
 	public static final int _io_ButtonStationPort = 1;
 	
-	public static final int _io_WinchMotor = 4;
-	//public static final int _io_WinchSensor = 4;
-	// 
+	public static final int _pwm_WinchMotor = 4;
+	//public static final int _dio_WinchSensor = 4;
+	
 	public static SpeedController driveTrainMotorLeftFront;
 	public static SpeedController driveTrainMotorRightFront;
 	public static SpeedController driveTrainMotorLeftRear;
@@ -58,16 +58,16 @@ public class IOMap {
     
     public static void init()
     {
-        driveTrainMotorLeftFront = new Talon(_io_DriveTrainLeftFrontMotor);
+        driveTrainMotorLeftFront = new Talon(_pwm_DriveTrainLeftFrontMotor);
         LiveWindow.addActuator("DriveTrain", "MotorLeftFront", (Talon) driveTrainMotorLeftFront);
         
-        driveTrainMotorRightFront = new Talon(_io_DriveTrainRightFrontMotor);
+        driveTrainMotorRightFront = new Talon(_pwm_DriveTrainRightFrontMotor);
         LiveWindow.addActuator("DriveTrain", "MotorRightFront", (Talon) driveTrainMotorRightFront);
      
-        driveTrainMotorLeftRear = new Talon(_io_DriveTrainLeftRearMotor);
+        driveTrainMotorLeftRear = new Talon(_pwm_DriveTrainLeftRearMotor);
         LiveWindow.addActuator("DriveTrain", "MotorLeftRear", (Talon) driveTrainMotorLeftRear);
         
-        driveTrainMotorRightRear = new Talon(_io_DriveTrainRightRearMotor);
+        driveTrainMotorRightRear = new Talon(_pwm_DriveTrainRightRearMotor);
         LiveWindow.addActuator("DriveTrain", "MotorRightRear", (Talon) driveTrainMotorRightRear);
      
         driveTrainRobotDrive = new RobotDrive(driveTrainMotorLeftFront, driveTrainMotorLeftRear, 
@@ -84,8 +84,8 @@ public class IOMap {
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         
-        driveTrainLeftEncoder = new Counter(_io_DriveTrainLeftEncoder);
-        driveTrainRightEncoder = new Counter(_io_DriveTrainRightEncoder);
+        driveTrainLeftEncoder = new Counter(_dio_DriveTrainLeftEncoder);
+        driveTrainRightEncoder = new Counter(_dio_DriveTrainRightEncoder);
 
         // Distance Per Pulse = Diameter of Wheel (8.5in * Pi)/360 pulses per revolution = .0741765in
         // NOTE right quadrature encoder turns in opposite direction from left.
@@ -97,7 +97,7 @@ public class IOMap {
         driveTrainRightEncoder.setDistancePerPulse(_encoderPulseDistance);
         LiveWindow.addSensor("DriveTrain", "RightEncoder", driveTrainRightEncoder);
         
-        winchMotor = new Talon(_io_WinchMotor);
+        winchMotor = new Talon(_pwm_WinchMotor);
         LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);
         
     }

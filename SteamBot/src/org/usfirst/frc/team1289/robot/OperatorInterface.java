@@ -23,11 +23,11 @@ public class OperatorInterface {
     public OperatorInterface()
     {
         joyStick = new Joystick(IOMap._io_JoystickPort);
-//        buttonStation = new Joystick(IOMap._io_ButtonStationPort);
-//        winchButton = new JoystickButton(buttonStation, _winchMotorButton);
-//     
-//        winchButton.whenPressed(new WinchEnable());
-//        winchButton.whenReleased(new WinchDisable());
+        buttonStation = new Joystick(IOMap._io_ButtonStationPort);
+        winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+     
+        winchButton.whenPressed(new WinchEnable());
+        winchButton.whenReleased(new WinchDisable());
     }
     
     //
