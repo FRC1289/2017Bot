@@ -111,6 +111,7 @@ public class Robot extends IterativeRobot {
         	_autonomousCommand.cancel();
         
         Command cmd = new DriveViaJoystick(); 
+        cmd.start();
         
    //     SmartDashboard.putData("Auto Chooser", cmd);
     }

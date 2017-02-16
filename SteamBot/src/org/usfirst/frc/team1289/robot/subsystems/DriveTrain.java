@@ -46,7 +46,7 @@ public class DriveTrain extends Subsystem
     // Scale the raw value into a piecewise linear equation
     private double ScaleValue(double rawValue)
     {
-    	double x1, x2, x3, x4;
+    /*	double x1, x2, x3, x4;
     	double y1, y2, y3, y4;
     	double m1, m2, m3, b1, b2, b3;
     	
@@ -86,36 +86,39 @@ public class DriveTrain extends Subsystem
     		return (m1 * rawValue) + b1;
     	else if (x2 < rawValue && rawValue <= x3) 
     		return (m2 * rawValue) + b2;
-    	else if (x3 < rawValue) 
+    	else if (x3 < rawValue && rawValue <= x4) 
     		return (m3 * rawValue) + b3;
     	else if (-x2 <= rawValue && rawValue < -x1) 
-    		return (m1 * rawValue) - b1;
+    		return -((m1 * rawValue) - b1);
     	else if (-x3 <= rawValue && rawValue < -x2) 
-    		return (m2 * rawValue) - b2;
-    	else if (-x4 <= rawValue) 
-    		return (m2 * rawValue) - b3;
+    		return -((m2 * rawValue) - b2);
+    	else if (-x4 <= rawValue && rawValue < -x3) 
+    		return -((m2 * rawValue) - b3);
     	else
     		// unknown - return zero for safety's sake
     		return 0.0;
-    
-    /*	double deadBand = SmartDashboard.getNumber("Drivetrain Deadband", 0.05);
+  */
+    	double deadBand = SmartDashboard.getNumber("Drivetrain Deadband", 0.05);
     	if (-deadBand < rawValue && rawValue < deadBand)
     		return 0.0;
     	else
     		return (rawValue < 0.0) ? Math.pow(rawValue + deadBand, 3) : Math.pow(rawValue - deadBand, 3);
-    		*/
+    
     }
     
     public void ArcadeDrive()
     {
-    	double moveValue = OperatorInterface.joyStick.getY();
-    	double rotateValue = OperatorInterface.joyStick.getX();
+    	double moveValue = -OperatorInterface.joyStick.getY();
+    	double rotateValue = -OperatorInterface.joyStick.getX();
+    	
+    	SmartDashboard.putNumber("stickRawMoveValue", moveValue);
+    	SmartDashboard.putNumber("stickRawRotateValue", rotateValue);
     	
     	moveValue = ScaleValue(moveValue);
     	rotateValue = ScaleValue(rotateValue);
     	
-    	SmartDashboard.putNumber("stickMoveValue", moveValue);
-    	SmartDashboard.putNumber("stickRotateValue", rotateValue);
+    	SmartDashboard.putNumber("stickScaledMoveValue", moveValue);
+    	SmartDashboard.putNumber("stickScaledRotateValue", rotateValue);
     	
     	_robotDrive.arcadeDrive(moveValue, rotateValue);
     }

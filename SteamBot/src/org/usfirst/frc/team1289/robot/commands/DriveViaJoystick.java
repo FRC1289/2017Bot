@@ -5,6 +5,7 @@ import org.usfirst.frc.team1289.robot.IOMap;
 import org.usfirst.frc.team1289.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -34,6 +35,8 @@ public class DriveViaJoystick extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
+		SmartDashboard.putNumber("LeftEncoderCount", Robot._drivetrainSubsystem.GetLeftEncoderCount());
+		SmartDashboard.putNumber("RightEncoderCount", Robot._drivetrainSubsystem.GetRightEncoderCount());
         return false;
     }
 

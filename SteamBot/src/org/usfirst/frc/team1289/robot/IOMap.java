@@ -26,7 +26,7 @@ public class IOMap {
 	private static final int _dio_DriveTrainLeftEncoder = 0;
 	private static final int _dio_DriveTrainRightEncoder = 1;
 	public static final int _io_JoystickPort = 0;
-	public static final int _io_ButtonStationPort = 1;
+	public static final int _io_ButtonStationPort = 0;
 	
 	public static final int _pwm_WinchMotor = 4;
 	//public static final int _dio_WinchSensor = 4;
@@ -46,7 +46,7 @@ public class IOMap {
 	private static final double _io_DriveTrainSensitivity = 0.1;
 	private static final double _io_DriveTrainMaxOutput = 1.0;
 	private static final double _io_WheelDiameter = 6.0;
-	private static final double _io_EncoderPulsesPerRotation = 16.0; //360.0;
+	private static final double _io_EncoderPulsesPerRotation = 6.0; //360.0;
 	private static final boolean _io_EncoderLeftReverse = false;
 	private static final boolean _io_EncoderRightReverse = true;
 	private static double _encoderPulseDistance;
@@ -79,10 +79,10 @@ public class IOMap {
         driveTrainRobotDrive.setMaxOutput(_io_DriveTrainMaxOutput);
 
 
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, false);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, false);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
-        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         
         driveTrainLeftEncoder = new Counter(_dio_DriveTrainLeftEncoder);
         driveTrainRightEncoder = new Counter(_dio_DriveTrainRightEncoder);
