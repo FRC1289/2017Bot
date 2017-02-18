@@ -16,7 +16,7 @@ public class DriveViaEncoder extends Command {
     {
     	requires(Robot._drivetrainSubsystem);
     	this._speed = SmartDashboard.getNumber("Auto Speed", 0.3);
-    	this._distance = SmartDashboard.getNumber("Auto Distance", 96.0);
+    	this._distance = 230.0; //SmartDashboard.getNumber("Auto Distance", 140.0);
     	SmartDashboard.putNumber("Left Distance", 0.0);
 		SmartDashboard.putNumber("Right Distance", 0.0);
 		SmartDashboard.putNumber("Av Distance", 0.0);

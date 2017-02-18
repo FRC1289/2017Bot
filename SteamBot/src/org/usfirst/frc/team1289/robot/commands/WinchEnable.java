@@ -4,6 +4,7 @@ import org.usfirst.frc.team1289.robot.OperatorInterface;
 import org.usfirst.frc.team1289.robot.Robot;
 import org.usfirst.frc.team1289.robot.commands.*;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -29,12 +30,23 @@ public class WinchEnable extends Command
     protected void execute() 
     {
     	Robot._winchSubsystem.Start();
+//    	if (Robot._winchSubsystem.IsAtLimit())
+//    	{
+//    		Timer.delay(2.0);
+//    		Robot._winchSubsystem.Stop();
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-    	return Robot._winchSubsystem.IsAtLimit();
+    	if (Robot._winchSubsystem.IsAtLimit())
+    	{
+    		Timer.delay(2.0);
+    		return true;
+    	}
+    	return false;
+    	//return Robot._winchSubsystem.IsAtLimit();
     }
 
     // Called once after isFinished returns true
@@ -45,6 +57,8 @@ public class WinchEnable extends Command
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void interrupted() 
+    {
+    	Robot._winchSubsystem.Stop();
     }
 }

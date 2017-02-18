@@ -32,7 +32,7 @@ public class OperatorInterface {
         lightBankAButton = new JoystickButton(buttonStation, _lightBankAButton);
         lightBankBButton = new JoystickButton(buttonStation, _lightBankBButton);
      
-        winchButton.whenPressed(new WinchEnable());
+        winchButton.whileHeld(new WinchEnable());
         
         lightBankAButton.whenPressed(new LightABank());
         lightBankBButton.whenPressed(new LightBBank());

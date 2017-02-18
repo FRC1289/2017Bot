@@ -34,7 +34,7 @@ public class Winch extends Subsystem
     
     public boolean IsAtLimit()
     {
-    	return _limitSwitch.get();
+    	return !_limitSwitch.get();
     }
 }
 
