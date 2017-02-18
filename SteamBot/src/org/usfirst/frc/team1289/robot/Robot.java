@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 	public static Winch _winchSubsystem;
 	public static OperatorInterface _operatorInterface;
 	public static Camera _camera;
+	public static LightBank _lightBankSubsystem;
 
     Command _autonomousCommand;
  //   SendableChooser _autoChooser;
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	IOMap.init();
     	_winchSubsystem = new Winch();
+    	_lightBankSubsystem = new LightBank();
 		_operatorInterface = new OperatorInterface();
  //       _autoChooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();

@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -25,11 +27,14 @@ public class IOMap {
 	private static final int _pwm_DriveTrainRightRearMotor = 3;
 	private static final int _dio_DriveTrainLeftEncoder = 0;
 	private static final int _dio_DriveTrainRightEncoder = 1;
+	
 	public static final int _io_JoystickPort = 0;
 	public static final int _io_ButtonStationPort = 0;
 	
 	public static final int _pwm_WinchMotor = 4;
-	//public static final int _dio_WinchSensor = 4;
+	private static final int _dio_WinchLimitSwitch = 2;
+	
+	public static final int _relay_LightBank = 0;
 	
 	public static SpeedController driveTrainMotorLeftFront;
 	public static SpeedController driveTrainMotorRightFront;
@@ -38,6 +43,8 @@ public class IOMap {
     public static RobotDrive driveTrainRobotDrive;
     public static Counter driveTrainLeftEncoder;
 	public static Counter driveTrainRightEncoder;
+	public static Relay lightBank;
+	public static DigitalInput winchLimitSwitch;
 	
     public static SpeedController winchMotor;
     
@@ -100,5 +107,8 @@ public class IOMap {
         winchMotor = new Talon(_pwm_WinchMotor);
         LiveWindow.addActuator("Winch", "Winch Motor", (Talon) winchMotor);
         
+        winchLimitSwitch = new DigitalInput(_dio_WinchLimitSwitch);
+        
+        lightBank = new Relay(_relay_LightBank);
     }
 }

@@ -15,19 +15,27 @@ public class OperatorInterface {
     // You create one by telling it which joystick it's on and which button
     // number it is.
 	private static final int _winchMotorButton = 1;
+	private static final int _lightBankAButton = 2;
+	private static final int _lightBankBButton = 3;
 	
     public static Joystick joyStick;
     public static Joystick buttonStation;
     public static Button winchButton;
+    public static Button lightBankAButton;
+    public static Button lightBankBButton;
     
     public OperatorInterface()
     {
         joyStick = new Joystick(IOMap._io_JoystickPort);
         buttonStation = new Joystick(IOMap._io_ButtonStationPort);
         winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+        lightBankAButton = new JoystickButton(buttonStation, _lightBankAButton);
+        lightBankBButton = new JoystickButton(buttonStation, _lightBankBButton);
      
         winchButton.whenPressed(new WinchEnable());
-        winchButton.whenReleased(new WinchDisable());
+        
+        lightBankAButton.whenPressed(new LightABank());
+        lightBankBButton.whenPressed(new LightBBank());
     }
     
     //

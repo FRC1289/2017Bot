@@ -2,17 +2,14 @@ package org.usfirst.frc.team1289.robot.subsystems;
 
 import org.usfirst.frc.team1289.robot.IOMap;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Relay;
 
 /**
  *
  */
-public class Winch extends Subsystem 
-{
-	private static SpeedController _winchMotor = IOMap.winchMotor;
-	private static DigitalInput _limitSwitch = IOMap.winchLimitSwitch;
+public class LightBank extends Subsystem {
+	private static Relay _lightBank = IOMap.lightBank;
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -22,19 +19,19 @@ public class Winch extends Subsystem
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void Start() 
-    {
-    	_winchMotor.set(1.0);
-    }
-    
     public void Stop()
     {
-    	_winchMotor.stopMotor();
+    	_lightBank.set(Relay.Value.kOff);
     }
     
-    public boolean IsAtLimit()
+    public void SetABank()
     {
-    	return _limitSwitch.get();
+    	_lightBank.set(Relay.Value.kForward);
+    }
+    
+    public void SetBBank()
+    {
+    	_lightBank.set(Relay.Value.kReverse);
     }
 }
 
