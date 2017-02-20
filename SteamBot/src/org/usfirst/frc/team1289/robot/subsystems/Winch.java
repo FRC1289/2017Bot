@@ -28,9 +28,14 @@ public class Winch extends Subsystem
     {
     }
     
-    public void Start() 
+    public void Raise() 
     {
     	_winchMotor.set(1.0);
+    }
+    
+    public void Lower() 
+    {
+    	_winchMotor.set(-1.0);
     }
     
     public void Stop()

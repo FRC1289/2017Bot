@@ -14,13 +14,15 @@ public class OperatorInterface {
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.
-	private static final int _winchMotorButton = 1;
-	private static final int _lightBankAButton = 2;
-	private static final int _lightBankBButton = 3;
+	private static final int _winchRaiseButton = 1;
+	private static final int _winchLowerButton = 2;
+	private static final int _lightBankAButton = 3;
+	private static final int _lightBankBButton = 4;
 	
     public static Joystick joyStick;
     public static Joystick buttonStation;
-    public static Button winchButton;
+    public static Button winchRaiseButton;
+    public static Button winchLowerButton;
     public static Button lightBankAButton;
     public static Button lightBankBButton;
     
@@ -28,11 +30,13 @@ public class OperatorInterface {
     {
         joyStick = new Joystick(IOMap._io_JoystickPort);
         buttonStation = new Joystick(IOMap._io_ButtonStationPort);
-        winchButton = new JoystickButton(buttonStation, _winchMotorButton);
+        winchRaiseButton = new JoystickButton(buttonStation, _winchRaiseButton);
+        winchLowerButton = new JoystickButton(buttonStation, _winchLowerButton);
         lightBankAButton = new JoystickButton(buttonStation, _lightBankAButton);
         lightBankBButton = new JoystickButton(buttonStation, _lightBankBButton);
      
-        winchButton.whileHeld(new WinchEnable());
+        winchRaiseButton.whenPressed(new WinchRaise());
+        //winchLowerButton.whileHeld(new WinchLower());
         
         lightBankAButton.whenPressed(new LightABank());
         lightBankBButton.whenPressed(new LightBBank());
