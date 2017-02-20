@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class WinchEnable extends Command 
 {
+	private static boolean _isDone = false; 
 
     public WinchEnable() 
     {
@@ -24,17 +25,14 @@ public class WinchEnable extends Command
     protected void initialize() 
     {
     	Robot._winchSubsystem.Stop();
+    	Robot._winchSubsystem.Reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	Robot._winchSubsystem.Start();
-//    	if (Robot._winchSubsystem.IsAtLimit())
-//    	{
-//    		Timer.delay(2.0);
-//    		Robot._winchSubsystem.Stop();
-//    	}
+    	if (! _isDone)
+    		Robot._winchSubsystem.Start();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -42,11 +40,10 @@ public class WinchEnable extends Command
     {
     	if (Robot._winchSubsystem.IsAtLimit())
     	{
-    		Timer.delay(2.0);
-    		return true;
+    		//Timer.delay(2.0);
+    		_isDone = true;
     	}
-    	return false;
-    	//return Robot._winchSubsystem.IsAtLimit();
+    	return _isDone;
     }
 
     // Called once after isFinished returns true
@@ -59,6 +56,6 @@ public class WinchEnable extends Command
     // subsystems is scheduled to run
     protected void interrupted() 
     {
-    	Robot._winchSubsystem.Stop();
+    	end();
     }
 }

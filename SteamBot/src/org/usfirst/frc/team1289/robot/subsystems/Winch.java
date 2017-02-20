@@ -4,7 +4,9 @@ import org.usfirst.frc.team1289.robot.IOMap;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -22,6 +24,10 @@ public class Winch extends Subsystem
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public void Reset()
+    {
+    }
+    
     public void Start() 
     {
     	_winchMotor.set(1.0);
@@ -34,7 +40,8 @@ public class Winch extends Subsystem
     
     public boolean IsAtLimit()
     {
-    	return !_limitSwitch.get();
+    	SmartDashboard.putBoolean("SwitchState", _limitSwitch.get());
+    	return ! _limitSwitch.get();
     }
 }
 
