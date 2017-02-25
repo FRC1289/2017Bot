@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	public static LightBank _lightBankSubsystem;
 
     Command _autonomousCommand;
- //   SendableChooser _autoChooser;
+    SendableChooser _autoChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -41,15 +41,15 @@ public class Robot extends IterativeRobot {
     	_winchSubsystem = new Winch();
     	_lightBankSubsystem = new LightBank();
 		_operatorInterface = new OperatorInterface();
- //       _autoChooser = new SendableChooser();
+        _autoChooser = new SendableChooser();
         _drivetrainSubsystem = new DriveTrain();
         _camera = new Camera();
         
- //       _autoChooser.addDefault("Encoder",  new DriveViaEncoder());
-  //      _autoChooser.addObject("Stick", new DriveViaJoystick());
-   //     SmartDashboard.putData("Auto Chooser", _autoChooser);
+        _autoChooser.addDefault("MoveToBaseline", new DriveViaEncoder(0.3, 230.0));
+        _autoChooser.addObject("PlaceGear", new DriveViaEncoder(0.2, 155.0));
+        SmartDashboard.putData("AutoMode", _autoChooser);
 
-        smartDashboardInit();
+    //    smartDashboardInit();
         
         _camera.Start();
     }
@@ -77,9 +77,10 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-    	_autonomousCommand = new DriveViaEncoder();
+    //	_autonomousCommand = new DriveViaEncoder();
+    	_autonomousCommand = (Command) _autoChooser.getSelected();
     	_autonomousCommand.start();
-       // _autonomousCommand = (Command) _autoChooser.getSelected();
+     
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -114,8 +115,6 @@ public class Robot extends IterativeRobot {
         
         Command cmd = new DriveViaJoystick(); 
         cmd.start();
-        
-   //     SmartDashboard.putData("Auto Chooser", cmd);
     }
 
     /**
@@ -131,15 +130,15 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
-    
-    private void smartDashboardInit()
-    {
-        SmartDashboard.putNumber("Auto Speed", 0.3);
-        SmartDashboard.putNumber("Auto Distance", 96.0);
-        SmartDashboard.putNumber("Drivetrain Deadband", 0.05);
-        SmartDashboard.putNumber("Drivetrain BP1", 0.2);
-        SmartDashboard.putNumber("Drivetrain M1", 1.0);
-        SmartDashboard.putNumber("Drivetrain BP2", 0.7);
-        SmartDashboard.putNumber("Drivetrain M2", 0.5); 
-    }
+//    
+//    private void smartDashboardInit()
+//    {
+//        SmartDashboard.putNumber("Auto Speed", 0.3);
+//        SmartDashboard.putNumber("Auto Distance", 96.0);
+//        SmartDashboard.putNumber("Drivetrain Deadband", 0.05);
+//        SmartDashboard.putNumber("Drivetrain BP1", 0.2);
+//        SmartDashboard.putNumber("Drivetrain M1", 1.0);
+//        SmartDashboard.putNumber("Drivetrain BP2", 0.7);
+//        SmartDashboard.putNumber("Drivetrain M2", 0.5); 
+//    }
 }
