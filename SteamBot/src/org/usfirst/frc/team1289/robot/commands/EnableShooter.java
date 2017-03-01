@@ -1,55 +1,42 @@
 package org.usfirst.frc.team1289.robot.commands;
 
-import org.usfirst.frc.team1289.robot.OperatorInterface;
-import org.usfirst.frc.team1289.robot.Robot;
-import org.usfirst.frc.team1289.robot.commands.*;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team1289.robot.IOMap;
+import org.usfirst.frc.team1289.robot.Robot;
 
 /**
  *
  */
-public class WinchRaise extends Command 
-{
-	private static boolean _isDone = false; 
+public class EnableShooter extends Command {
 
-    public WinchRaise() 
-    {
+    public EnableShooter() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot._winchSubsystem);
+    	requires(Robot._shooterSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	Robot._winchSubsystem.Stop();
-    	Robot._winchSubsystem.Reset();
+    	Robot._shooterSubsystem.Stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() 
-    {
-    	if (! _isDone)
-    		Robot._winchSubsystem.Raise();
+    protected void execute() {
+    	Robot._shooterSubsystem.Start();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-    	if (Robot._winchSubsystem.IsAtLimit())
-    	{
-    		Timer.delay(1.0);
-    		_isDone = true;
-    	}
-    	return _isDone;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() 
     {
-    	Robot._winchSubsystem.Stop();
+    	Robot._shooterSubsystem.Stop();
     }
 
     // Called when another command which requires one or more of the same

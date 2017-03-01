@@ -18,6 +18,7 @@ public class OperatorInterface {
 	private static final int _winchLowerButton = 2;
 	private static final int _lightBankAButton = 3;
 	private static final int _lightBankBButton = 4;
+	private static final int _shooterButton = 5;
 	
     public static Joystick joyStick;
     public static Joystick buttonStation;
@@ -25,6 +26,7 @@ public class OperatorInterface {
     public static Button winchLowerButton;
     public static Button lightBankAButton;
     public static Button lightBankBButton;
+    public static Button shooterButton;
     
     public OperatorInterface()
     {
@@ -34,12 +36,18 @@ public class OperatorInterface {
         winchLowerButton = new JoystickButton(buttonStation, _winchLowerButton);
         lightBankAButton = new JoystickButton(buttonStation, _lightBankAButton);
         lightBankBButton = new JoystickButton(buttonStation, _lightBankBButton);
+        shooterButton = new JoystickButton(buttonStation, _shooterButton);
      
         winchRaiseButton.whenPressed(new WinchRaise());
         //winchLowerButton.whileHeld(new WinchLower());
         
         lightBankAButton.whenPressed(new LightABank());
         lightBankBButton.whenPressed(new LightBBank());
+        
+        //shooterButton.whenPressed(new EnableShooter());
+        //shooterButton.whileHeld(new EnableShooter());
+        //shooterButton.whenReleased(new DisableShooter());
+        shooterButton.toggleWhenPressed(new EnableShooter());
     }
     
     //

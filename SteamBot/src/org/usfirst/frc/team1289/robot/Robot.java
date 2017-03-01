@@ -28,7 +28,8 @@ public class Robot extends IterativeRobot {
 	public static OperatorInterface _operatorInterface;
 	public static Camera _camera;
 	public static LightBank _lightBankSubsystem;
-
+	public static Shooter _shooterSubsystem;
+	
     Command _autonomousCommand;
     SendableChooser _autoChooser;
 
@@ -38,20 +39,26 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	IOMap.init();
-    	_winchSubsystem = new Winch();
-    	_lightBankSubsystem = new LightBank();
+    	SubsystemInit();
 		_operatorInterface = new OperatorInterface();
+		
         _autoChooser = new SendableChooser();
-        _drivetrainSubsystem = new DriveTrain();
-        _camera = new Camera();
         
-        _autoChooser.addDefault("MoveToBaseline", new DriveViaEncoder(0.3, 230.0));
-        _autoChooser.addObject("PlaceGear", new DriveViaEncoder(0.2, 155.0));
+        _camera = new Camera();
+
+        _autoChooser.addDefault("PlaceGear", new DriveViaEncoder(0.2, 155.0));
+        _autoChooser.addObject("MoveToBaseline", new DriveViaEncoder(0.3, 230.0));
         SmartDashboard.putData("AutoMode", _autoChooser);
 
-    //    smartDashboardInit();
-        
         _camera.Start();
+    }
+    
+    private void SubsystemInit()
+    {
+    	_winchSubsystem = new Winch();
+    	_shooterSubsystem = new Shooter();
+    	_lightBankSubsystem = new LightBank();
+    	_drivetrainSubsystem = new DriveTrain();
     }
   	
 	/**
@@ -130,15 +137,4 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
-//    
-//    private void smartDashboardInit()
-//    {
-//        SmartDashboard.putNumber("Auto Speed", 0.3);
-//        SmartDashboard.putNumber("Auto Distance", 96.0);
-//        SmartDashboard.putNumber("Drivetrain Deadband", 0.05);
-//        SmartDashboard.putNumber("Drivetrain BP1", 0.2);
-//        SmartDashboard.putNumber("Drivetrain M1", 1.0);
-//        SmartDashboard.putNumber("Drivetrain BP2", 0.7);
-//        SmartDashboard.putNumber("Drivetrain M2", 0.5); 
-//    }
 }

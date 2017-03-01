@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1289.robot;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,14 +26,15 @@ public class IOMap {
 	private static final int _pwm_DriveTrainRightFrontMotor = 1;
 	private static final int _pwm_DriveTrainLeftRearMotor = 2;
 	private static final int _pwm_DriveTrainRightRearMotor = 3;
+	private static final int _pwm_WinchMotor = 4;
+	private static final int _pwm_ShooterMotor = 5;
+	
 	private static final int _dio_DriveTrainLeftEncoder = 0;
 	private static final int _dio_DriveTrainRightEncoder = 1;
+	private static final int _dio_WinchLimitSwitch = 2;
 	
 	public static final int _io_JoystickPort = 0;
 	public static final int _io_ButtonStationPort = 0;
-	
-	private static final int _pwm_WinchMotor = 4;
-	private static final int _dio_WinchLimitSwitch = 2;
 	
 	public static final int _relay_LightBank = 0;
 	
@@ -44,9 +46,11 @@ public class IOMap {
     public static Counter driveTrainLeftEncoder;
 	public static Counter driveTrainRightEncoder;
 	public static Relay lightBank;
-	public static DigitalInput winchLimitSwitch;
+	
+	public static SpeedController shooterMotor;
 	
     public static SpeedController winchMotor;
+    public static DigitalInput winchLimitSwitch;
     
 	private static final boolean _io_DriveTrainSafetyEnabled = true;
 	private static final double _io_DriveTrainExpiration = 0.1;
@@ -111,5 +115,7 @@ public class IOMap {
         winchLimitSwitch = new DigitalInput(_dio_WinchLimitSwitch);
         
         lightBank = new Relay(_relay_LightBank);
+        
+        shooterMotor = new Talon(_pwm_ShooterMotor);
     }
 }
