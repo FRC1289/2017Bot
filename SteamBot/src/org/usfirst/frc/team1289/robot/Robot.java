@@ -30,8 +30,13 @@ public class Robot extends IterativeRobot {
 	public static LightBank _lightBankSubsystem;
 	public static Shooter _shooterSubsystem;
 	
-    Command _autonomousCommand;
-    SendableChooser _autoChooser;
+    private static Command _autonomousCommand;
+    private static Command _winchCommand;
+    private static Command _shooterCommand;
+    private static Command _autoPlaceGearCommand;
+    private static Command _autoDriveToLineCommand;
+    
+    private static SendableChooser _autoChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -39,18 +44,30 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	IOMap.init();
+    	// Subsystems must be initialized  before Commands
+    	// since commands require() the subsystems.
     	SubsystemInit();
-		_operatorInterface = new OperatorInterface();
+    	CommandInit();
+    	
+		_operatorInterface = new OperatorInterface(_winchCommand, _shooterCommand);
 		
         _autoChooser = new SendableChooser();
         
         _camera = new Camera();
 
-        _autoChooser.addDefault("PlaceGear", new DriveViaEncoder(0.2, 155.0));
-        _autoChooser.addObject("MoveToBaseline", new DriveViaEncoder(0.3, 230.0));
+        _autoChooser.addDefault("PlaceGear", _autoPlaceGearCommand);
+        _autoChooser.addObject("MoveToBaseline", _autoDriveToLineCommand);
         SmartDashboard.putData("AutoMode", _autoChooser);
 
         _camera.Start();
+    }
+    
+    private void CommandInit()
+    {
+    	_winchCommand = new WinchRaise();
+    	_shooterCommand = new EnableShooter();
+    	_autoPlaceGearCommand = new DriveViaEncoder(0.2, 155.0);
+    	_autoDriveToLineCommand = new DriveViaEncoder(0.3, 230.0);
     }
     
     private void SubsystemInit()

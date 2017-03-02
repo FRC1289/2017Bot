@@ -40,7 +40,7 @@ public class WinchRaise extends Command
     {
     	if (Robot._winchSubsystem.IsAtLimit())
     	{
-    		Timer.delay(1.0);
+    		//Timer.delay(1.0);
     		_isDone = true;
     	}
     	return _isDone;
