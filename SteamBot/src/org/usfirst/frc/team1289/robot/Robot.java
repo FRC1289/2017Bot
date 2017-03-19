@@ -66,8 +66,8 @@ public class Robot extends IterativeRobot {
     {
     	_winchCommand = new WinchRaise();
     	_shooterCommand = new EnableShooter();
-    	_autoPlaceGearCommand = new DriveViaEncoder(0.2, 155.0);
-    	_autoDriveToLineCommand = new DriveViaEncoder(0.3, 230.0);
+    	_autoPlaceGearCommand = new DriveViaEncoder(0.1, 128.0);
+    	_autoDriveToLineCommand = new DriveViaEncoder(0.1, 130.0);
     }
     
     private void SubsystemInit()
